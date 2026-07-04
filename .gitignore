@@ -1,0 +1,25 @@
+# WordPress Core
+wp-admin/
+wp-includes/
+
+# Cache
+wp-content/cache/
+
+# Logs
+*.log
+debug.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Backups
+*.zip
+*.sql
+
+# Environment
+.env
