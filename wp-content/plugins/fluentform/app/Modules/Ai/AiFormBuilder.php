@@ -109,7 +109,8 @@ class AiFormBuilder extends FormService
             'site_locale'    => determine_locale(),
             'has_pro'        => Helper::hasPro(),
             'has_payment'    => $paymentSetting['status'] == 'yes',
-            'request_id'     => uniqid('ff_ai_')
+            'request_id'     => uniqid('ff_ai_'),
+            'save_usage'     => apply_filters('fluentform/ai_save_usage', true),
         ];
 
         $result = (new FluentFormAIAPI())->makeRequest($queryArgs);
