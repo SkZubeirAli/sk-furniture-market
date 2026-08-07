@@ -1,1 +1,1 @@
-.elementor .container_main{background-color:#F8F4EE;flex-direction:row;}
+.elementor .container_main{display:flex;flex-direction:row;justify-content:center;}
