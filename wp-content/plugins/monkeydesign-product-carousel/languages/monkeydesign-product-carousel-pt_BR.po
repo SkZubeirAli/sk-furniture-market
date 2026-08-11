@@ -1,0 +1,603 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MonkeyDesign Product Carousel for Elementor 1.0.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/monkeydesign-product-carousel\n"
+"POT-Creation-Date: 2026-07-22 11:58+0000\n"
+"PO-Revision-Date: 2026-07-22 11:58+0000\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Claude Code (manual translation)\n"
+
+msgid "MonkeyDesign Product Carousel for Elementor"
+msgstr "MonkeyDesign Carrossel de Produtos para Elementor"
+
+msgid "https://monkeydesign.hu/en/products/elementor-addons/monkeydesign-product-carousel"
+msgstr "https://monkeydesign.hu/en/products/elementor-addons/monkeydesign-product-carousel"
+
+msgid "WooCommerce product carousel/slider widget for Elementor — powerful query engine, flexible card builder."
+msgstr "Widget de carrossel/slider de produtos WooCommerce para Elementor — mecanismo de consulta poderoso, construtor de cartões flexível."
+
+msgid "MonkeyDesign"
+msgstr "MonkeyDesign"
+
+msgid "https://monkeydesign.hu"
+msgstr "https://monkeydesign.hu"
+
+msgid "Product Carousel Settings"
+msgstr "Configurações do Carrossel de Produtos"
+
+msgid "Product Carousel"
+msgstr "Carrossel de Produtos"
+
+msgid "by MonkeyDesign"
+msgstr "por MonkeyDesign"
+
+msgid "PRO"
+msgstr "PRO"
+
+msgid "FREE"
+msgstr "GRÁTIS"
+
+msgid "System Status"
+msgstr "Status do Sistema"
+
+msgid "Active — WooCommerce %s"
+msgstr "Ativo — WooCommerce %s"
+
+msgid "Not active. WooCommerce is required."
+msgstr "Não ativo. O WooCommerce é necessário."
+
+msgid "Active — Elementor %s"
+msgstr "Ativo — Elementor %s"
+
+msgid "Not active. Elementor is required."
+msgstr "Não ativo. O Elementor é necessário."
+
+msgid "Upgrade to PRO"
+msgstr "Fazer upgrade para PRO"
+
+msgid "Quick view modal"
+msgstr "Modal de visualização rápida"
+
+msgid "AJAX add to cart with feedback"
+msgstr "Adicionar ao carrinho via AJAX com retorno visual"
+
+msgid "Wishlist button"
+msgstr "Botão de lista de desejos"
+
+msgid "Sale countdown timer"
+msgstr "Cronômetro de contagem regressiva de promoção"
+
+msgid "Overlay skin"
+msgstr "Estilo sobreposto"
+
+msgid "Thumbnail navigation & slider sync"
+msgstr "Navegação por miniaturas e sincronização de sliders"
+
+msgid "Recently viewed products"
+msgstr "Produtos vistos recentemente"
+
+msgid "Preset export / import"
+msgstr "Exportar/importar predefinições"
+
+msgid "Get PRO"
+msgstr "Obter PRO"
+
+msgid "Version"
+msgstr "Versão"
+
+msgid "License"
+msgstr "Licença"
+
+msgid "Free"
+msgstr "Grátis"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "View full details"
+msgstr "Ver todos os detalhes"
+
+msgid "Out of stock"
+msgstr "Esgotado"
+
+msgid "Sale"
+msgstr "Promoção"
+
+msgid "Featured"
+msgstr "Destaque"
+
+msgid "View product"
+msgstr "Ver produto"
+
+msgid "Add to wishlist: %s"
+msgstr "Adicionar à lista de desejos: %s"
+
+msgid "Quick view: %s"
+msgstr "Visualização rápida: %s"
+
+msgid "Quick view"
+msgstr "Visualização rápida"
+
+msgid "Sale ends in"
+msgstr "A promoção termina em"
+
+msgid "d"
+msgstr "d"
+
+msgid "h"
+msgstr "h"
+
+msgid "m"
+msgstr "m"
+
+msgid "s"
+msgstr "s"
+
+msgid "No products found."
+msgstr "Nenhum produto encontrado."
+
+msgid "✓ Added to cart"
+msgstr "✓ Adicionado ao carrinho"
+
+msgid "Previous slide"
+msgstr "Slide anterior"
+
+msgid "Next slide"
+msgstr "Próximo slide"
+
+msgid "Go to slide %d"
+msgstr "Ir para o slide %d"
+
+msgid "Card elements"
+msgstr "Elementos do cartão"
+
+msgid "Image"
+msgstr "Imagem"
+
+msgid "Badge (sale / featured)"
+msgstr "Selo (promoção/destaque)"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Star rating"
+msgstr "Avaliação por estrelas"
+
+msgid "Price"
+msgstr "Preço"
+
+msgid "Short description"
+msgstr "Descrição curta"
+
+msgid "Stock status"
+msgstr "Status do estoque"
+
+msgid "Add to cart button"
+msgstr "Botão de adicionar ao carrinho"
+
+msgid "Quick view button"
+msgstr "Botão de visualização rápida"
+
+msgid "Quick view button text"
+msgstr "Texto do botão de visualização rápida"
+
+msgid "Sale countdown"
+msgstr "Contagem regressiva de promoção"
+
+msgid "Cart"
+msgstr "Carrinho"
+
+msgid "Enhanced cart feedback"
+msgstr "Retorno visual aprimorado do carrinho"
+
+msgid "Shows a spinner while adding, a success state and a confirmation toast."
+msgstr "Mostra um indicador de carregamento ao adicionar, um estado de sucesso e uma notificação de confirmação."
+
+msgid "Toast message text"
+msgstr "Texto da notificação"
+
+msgid "Toast position"
+msgstr "Posição da notificação"
+
+msgid "Under the widget"
+msgstr "Abaixo do widget"
+
+msgid "Page — bottom center"
+msgstr "Página — embaixo ao centro"
+
+msgid "Page — top center"
+msgstr "Página — em cima ao centro"
+
+msgid "Page — bottom left"
+msgstr "Página — embaixo à esquerda"
+
+msgid "Page — bottom right"
+msgstr "Página — embaixo à direita"
+
+msgid "Page — top left"
+msgstr "Página — em cima à esquerda"
+
+msgid "Page — top right"
+msgstr "Página — em cima à direita"
+
+msgid "Horizontal offset (px)"
+msgstr "Deslocamento horizontal (px)"
+
+msgid "Vertical offset (px)"
+msgstr "Deslocamento vertical (px)"
+
+msgid "Image size"
+msgstr "Tamanho da imagem"
+
+msgid "WooCommerce thumbnail"
+msgstr "Miniatura do WooCommerce"
+
+msgid "WooCommerce single"
+msgstr "WooCommerce individual"
+
+msgid "Large"
+msgstr "Grande"
+
+msgid "Full"
+msgstr "Completo"
+
+msgid "Wishlist Button"
+msgstr "Botão de lista de desejos"
+
+msgid "Button size"
+msgstr "Tamanho do botão"
+
+msgid "Border radius"
+msgstr "Raio da borda"
+
+msgid "Default state"
+msgstr "Estado padrão"
+
+msgid "Background"
+msgstr "Fundo"
+
+msgid "Icon color"
+msgstr "Cor do ícone"
+
+msgid "Hover state"
+msgstr "Estado ao passar o mouse"
+
+msgid "Background (hover)"
+msgstr "Fundo (ao passar o mouse)"
+
+msgid "Icon color (hover)"
+msgstr "Cor do ícone (ao passar o mouse)"
+
+msgid "Active state (wishlisted)"
+msgstr "Estado ativo (na lista de desejos)"
+
+msgid "Background (active)"
+msgstr "Fundo (ativo)"
+
+msgid "Icon color (active)"
+msgstr "Cor do ícone (ativo)"
+
+msgid "Quick View"
+msgstr "Visualização rápida"
+
+msgid "Button background"
+msgstr "Fundo do botão"
+
+msgid "Button text color"
+msgstr "Cor do texto do botão"
+
+msgid "Button background (hover)"
+msgstr "Fundo do botão (ao passar o mouse)"
+
+msgid "Button text color (hover)"
+msgstr "Cor do texto do botão (ao passar o mouse)"
+
+msgid "Modal"
+msgstr "Janela modal"
+
+msgid "Text"
+msgstr "Texto"
+
+msgid "Title & price color"
+msgstr "Cor do título e preço"
+
+msgid "Description color"
+msgstr "Cor da descrição"
+
+msgid "Sale price color"
+msgstr "Cor do preço promocional"
+
+msgid "Text color"
+msgstr "Cor do texto"
+
+msgid "Text color (hover)"
+msgstr "Cor do texto (ao passar o mouse)"
+
+msgid "View full details link"
+msgstr "Link de ver todos os detalhes"
+
+msgid "Color"
+msgstr "Cor"
+
+msgid "Color (hover)"
+msgstr "Cor (ao passar o mouse)"
+
+msgid "Close button"
+msgstr "Botão de fechar"
+
+msgid "Size"
+msgstr "Tamanho"
+
+msgid "Cart Feedback"
+msgstr "Retorno visual do carrinho"
+
+msgid "Spinner"
+msgstr "Indicador de carregamento"
+
+msgid "Spinner color"
+msgstr "Cor do indicador de carregamento"
+
+msgid "Success state"
+msgstr "Estado de sucesso"
+
+msgid "Background color"
+msgstr "Cor de fundo"
+
+msgid "Toast notification"
+msgstr "Notificação"
+
+msgid "View cart button"
+msgstr "Botão de ver carrinho"
+
+msgid "Text & border color"
+msgstr "Cor do texto e da borda"
+
+msgid "Hover background"
+msgstr "Fundo ao passar o mouse"
+
+msgid "Hover text color"
+msgstr "Cor do texto ao passar o mouse"
+
+msgid "Sale Countdown"
+msgstr "Contagem regressiva de promoção"
+
+msgid "Label color"
+msgstr "Cor do rótulo"
+
+msgid "Number color"
+msgstr "Cor do número"
+
+msgid "Unit label color"
+msgstr "Cor do rótulo da unidade"
+
+msgid "Layout"
+msgstr "Layout"
+
+msgid "Classic"
+msgstr "Clássico"
+
+msgid "Minimal"
+msgstr "Minimalista"
+
+msgid "Overlay"
+msgstr "Sobreposição"
+
+msgid "Skin"
+msgstr "Estilo"
+
+msgid "Columns"
+msgstr "Colunas"
+
+msgid "Gap between slides (px)"
+msgstr "Espaço entre os slides (px)"
+
+msgid "Center mode"
+msgstr "Modo centralizado"
+
+msgid "Active slide is centered and adjacent slides are partially visible."
+msgstr "O slide ativo é centralizado e os slides adjacentes ficam parcialmente visíveis."
+
+msgid "Overlay Skin"
+msgstr "Estilo sobreposto"
+
+msgid "Overlay background"
+msgstr "Fundo da sobreposição"
+
+msgid "Title color"
+msgstr "Cor do título"
+
+msgid "Button"
+msgstr "Botão"
+
+msgid "Arrows"
+msgstr "Setas"
+
+msgid "Dots"
+msgstr "Pontos"
+
+msgid "Progress bar"
+msgstr "Barra de progresso"
+
+msgid "Navigation"
+msgstr "Navegação"
+
+msgid "Thumbnail navigation"
+msgstr "Navegação por miniaturas"
+
+msgid "Thumbnail height"
+msgstr "Altura da miniatura"
+
+msgid "Thumbnail gap"
+msgstr "Espaço entre miniaturas"
+
+msgid "Active border color"
+msgstr "Cor da borda ativa"
+
+msgid "Sync slider"
+msgstr "Sincronizar slider"
+
+msgid "Sync ID"
+msgstr "ID de sincronização"
+
+msgid "e.g. gallery-1"
+msgstr "ex.: galeria-1"
+
+msgid "Give the same ID to two carousels on this page to sync them."
+msgstr "Dê o mesmo ID a dois carrosséis nesta página para sincronizá-los."
+
+msgid "Previous icon"
+msgstr "Ícone anterior"
+
+msgid "Next icon"
+msgstr "Ícone próximo"
+
+msgid "Icon size"
+msgstr "Tamanho do ícone"
+
+msgid "Normal"
+msgstr "Normal"
+
+msgid "Shadow horizontal"
+msgstr "Sombra horizontal"
+
+msgid "Shadow vertical"
+msgstr "Sombra vertical"
+
+msgid "Shadow blur"
+msgstr "Desfoque da sombra"
+
+msgid "Shadow spread"
+msgstr "Propagação da sombra"
+
+msgid "Shadow color"
+msgstr "Cor da sombra"
+
+msgid "Hover"
+msgstr "Ao passar o mouse"
+
+msgid "Active color"
+msgstr "Cor ativa"
+
+msgid "Height"
+msgstr "Altura"
+
+msgid "Bar color"
+msgstr "Cor da barra"
+
+msgid "Track color"
+msgstr "Cor da trilha"
+
+msgid "Fraction"
+msgstr "Fração"
+
+msgid "Fraction (1 / 6)"
+msgstr "Fração (1 / 6)"
+
+msgid "Scrollbar"
+msgstr "Barra de rolagem"
+
+msgid "Font size"
+msgstr "Tamanho da fonte"
+
+msgid "Current slide color"
+msgstr "Cor do slide atual"
+
+msgid "Drag color"
+msgstr "Cor de arraste"
+
+msgid "Autoplay"
+msgstr "Reprodução automática"
+
+msgid "Delay (ms)"
+msgstr "Atraso (ms)"
+
+msgid "Pause on hover"
+msgstr "Pausar ao passar o mouse"
+
+msgid "Infinite loop"
+msgstr "Loop infinito"
+
+msgid "Transition speed (ms)"
+msgstr "Velocidade de transição (ms)"
+
+msgid "Query"
+msgstr "Consulta"
+
+msgid "Product source"
+msgstr "Fonte de produtos"
+
+msgid "Latest products"
+msgstr "Produtos mais recentes"
+
+msgid "Featured products"
+msgstr "Produtos em destaque"
+
+msgid "On sale"
+msgstr "Em promoção"
+
+msgid "Best sellers"
+msgstr "Mais vendidos"
+
+msgid "By category"
+msgstr "Por categoria"
+
+msgid "By tag"
+msgstr "Por tag"
+
+msgid "Manual selection"
+msgstr "Seleção manual"
+
+msgid "Related products"
+msgstr "Produtos relacionados"
+
+msgid "Categories"
+msgstr "Categorias"
+
+msgid "Tags"
+msgstr "Tags"
+
+msgid "Product IDs"
+msgstr "IDs de produto"
+
+msgid "Comma-separated product IDs, e.g. 12, 45, 78"
+msgstr "IDs de produto separados por vírgula, ex.: 12, 45, 78"
+
+msgid "Number of products"
+msgstr "Número de produtos"
+
+msgid "Order by"
+msgstr "Ordenar por"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Random"
+msgstr "Aleatório"
+
+msgid "Rating"
+msgstr "Avaliação"
+
+msgid "Menu order"
+msgstr "Ordem do menu"
+
+msgid "Order"
+msgstr "Ordem"
+
+msgid "Descending"
+msgstr "Decrescente"
+
+msgid "Ascending"
+msgstr "Crescente"
+
+msgid "Found a translation issue?"
+msgstr "Encontrou um erro de tradução?"
+
+msgid "Let us know"
+msgstr "Avise-nos"
+
+msgid "Hide out of stock"
+msgstr "Ocultar esgotados"

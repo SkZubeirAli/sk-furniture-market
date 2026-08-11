@@ -1,0 +1,603 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MonkeyDesign Product Carousel for Elementor 1.0.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/monkeydesign-product-carousel\n"
+"POT-Creation-Date: 2026-07-22 11:58+0000\n"
+"PO-Revision-Date: 2026-07-22 11:58+0000\n"
+"Language: hu_HU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Claude Code (manual translation)\n"
+
+msgid "MonkeyDesign Product Carousel for Elementor"
+msgstr "MonkeyDesign Termékkarusszel Elementorhoz"
+
+msgid "https://monkeydesign.hu/en/products/elementor-addons/monkeydesign-product-carousel"
+msgstr "https://monkeydesign.hu/en/products/elementor-addons/monkeydesign-product-carousel"
+
+msgid "WooCommerce product carousel/slider widget for Elementor — powerful query engine, flexible card builder."
+msgstr "WooCommerce termék-karusszel/csúszka widget Elementorhoz — erőteljes lekérdező motor, rugalmas kártya-építő."
+
+msgid "MonkeyDesign"
+msgstr "MonkeyDesign"
+
+msgid "https://monkeydesign.hu"
+msgstr "https://monkeydesign.hu"
+
+msgid "Product Carousel Settings"
+msgstr "Termékkarusszel beállítások"
+
+msgid "Product Carousel"
+msgstr "Termékkarusszel"
+
+msgid "by MonkeyDesign"
+msgstr "MonkeyDesign készítette"
+
+msgid "PRO"
+msgstr "PRO"
+
+msgid "FREE"
+msgstr "INGYENES"
+
+msgid "System Status"
+msgstr "Rendszerállapot"
+
+msgid "Active — WooCommerce %s"
+msgstr "Aktív — WooCommerce %s"
+
+msgid "Not active. WooCommerce is required."
+msgstr "Nem aktív. A WooCommerce szükséges."
+
+msgid "Active — Elementor %s"
+msgstr "Aktív — Elementor %s"
+
+msgid "Not active. Elementor is required."
+msgstr "Nem aktív. Az Elementor szükséges."
+
+msgid "Upgrade to PRO"
+msgstr "Frissítés PRO-ra"
+
+msgid "Quick view modal"
+msgstr "Gyorsnézet ablak"
+
+msgid "AJAX add to cart with feedback"
+msgstr "AJAX kosárba tevés visszajelzéssel"
+
+msgid "Wishlist button"
+msgstr "Kívánságlista gomb"
+
+msgid "Sale countdown timer"
+msgstr "Akció visszaszámláló"
+
+msgid "Overlay skin"
+msgstr "Overlay design"
+
+msgid "Thumbnail navigation & slider sync"
+msgstr "Miniatűr navigáció és csúszka szinkron"
+
+msgid "Recently viewed products"
+msgstr "Nemrég megtekintett termékek"
+
+msgid "Preset export / import"
+msgstr "Preset exportálás / importálás"
+
+msgid "Get PRO"
+msgstr "PRO beszerzése"
+
+msgid "Version"
+msgstr "Verzió"
+
+msgid "License"
+msgstr "Licenc"
+
+msgid "Free"
+msgstr "Ingyenes"
+
+msgid "Author"
+msgstr "Szerző"
+
+msgid "View full details"
+msgstr "Részletek megtekintése"
+
+msgid "Out of stock"
+msgstr "Elfogyott"
+
+msgid "Sale"
+msgstr "Akció"
+
+msgid "Featured"
+msgstr "Kiemelt"
+
+msgid "View product"
+msgstr "Termék megtekintése"
+
+msgid "Add to wishlist: %s"
+msgstr "Kívánságlistához adás: %s"
+
+msgid "Quick view: %s"
+msgstr "Gyorsnézet: %s"
+
+msgid "Quick view"
+msgstr "Gyorsnézet"
+
+msgid "Sale ends in"
+msgstr "Az akció véget ér"
+
+msgid "d"
+msgstr "n"
+
+msgid "h"
+msgstr "ó"
+
+msgid "m"
+msgstr "p"
+
+msgid "s"
+msgstr "mp"
+
+msgid "No products found."
+msgstr "Nem található termék."
+
+msgid "✓ Added to cart"
+msgstr "✓ Kosárba téve"
+
+msgid "Previous slide"
+msgstr "Előző dia"
+
+msgid "Next slide"
+msgstr "Következő dia"
+
+msgid "Go to slide %d"
+msgstr "Ugrás a(z) %d. diára"
+
+msgid "Card elements"
+msgstr "Kártya elemek"
+
+msgid "Image"
+msgstr "Kép"
+
+msgid "Badge (sale / featured)"
+msgstr "Jelvény (akció / kiemelt)"
+
+msgid "Title"
+msgstr "Cím"
+
+msgid "Star rating"
+msgstr "Csillagos értékelés"
+
+msgid "Price"
+msgstr "Ár"
+
+msgid "Short description"
+msgstr "Rövid leírás"
+
+msgid "Stock status"
+msgstr "Készlet állapot"
+
+msgid "Add to cart button"
+msgstr "Kosárba gomb"
+
+msgid "Quick view button"
+msgstr "Gyorsnézet gomb"
+
+msgid "Quick view button text"
+msgstr "Gyorsnézet gomb szövege"
+
+msgid "Sale countdown"
+msgstr "Akció visszaszámláló"
+
+msgid "Cart"
+msgstr "Kosár"
+
+msgid "Enhanced cart feedback"
+msgstr "Fejlett kosár-visszajelzés"
+
+msgid "Shows a spinner while adding, a success state and a confirmation toast."
+msgstr "Betöltés közben pörgő ikont, sikeres állapotot és megerősítő értesítést jelenít meg."
+
+msgid "Toast message text"
+msgstr "Értesítés szövege"
+
+msgid "Toast position"
+msgstr "Értesítés pozíciója"
+
+msgid "Under the widget"
+msgstr "A widget alatt"
+
+msgid "Page — bottom center"
+msgstr "Oldal — lent középen"
+
+msgid "Page — top center"
+msgstr "Oldal — fent középen"
+
+msgid "Page — bottom left"
+msgstr "Oldal — lent balra"
+
+msgid "Page — bottom right"
+msgstr "Oldal — lent jobbra"
+
+msgid "Page — top left"
+msgstr "Oldal — fent balra"
+
+msgid "Page — top right"
+msgstr "Oldal — fent jobbra"
+
+msgid "Horizontal offset (px)"
+msgstr "Vízszintes eltolás (px)"
+
+msgid "Vertical offset (px)"
+msgstr "Függőleges eltolás (px)"
+
+msgid "Image size"
+msgstr "Kép mérete"
+
+msgid "WooCommerce thumbnail"
+msgstr "WooCommerce miniatűr"
+
+msgid "WooCommerce single"
+msgstr "WooCommerce egyedi"
+
+msgid "Large"
+msgstr "Nagy"
+
+msgid "Full"
+msgstr "Teljes"
+
+msgid "Wishlist Button"
+msgstr "Kívánságlista gomb"
+
+msgid "Button size"
+msgstr "Gomb mérete"
+
+msgid "Border radius"
+msgstr "Lekerekítés"
+
+msgid "Default state"
+msgstr "Alapállapot"
+
+msgid "Background"
+msgstr "Háttér"
+
+msgid "Icon color"
+msgstr "Ikon színe"
+
+msgid "Hover state"
+msgstr "Rámutatás állapot"
+
+msgid "Background (hover)"
+msgstr "Háttér (rámutatáskor)"
+
+msgid "Icon color (hover)"
+msgstr "Ikon színe (rámutatáskor)"
+
+msgid "Active state (wishlisted)"
+msgstr "Aktív állapot (kívánságlistán)"
+
+msgid "Background (active)"
+msgstr "Háttér (aktív)"
+
+msgid "Icon color (active)"
+msgstr "Ikon színe (aktív)"
+
+msgid "Quick View"
+msgstr "Gyorsnézet"
+
+msgid "Button background"
+msgstr "Gomb háttere"
+
+msgid "Button text color"
+msgstr "Gomb szövegszíne"
+
+msgid "Button background (hover)"
+msgstr "Gomb háttere (rámutatáskor)"
+
+msgid "Button text color (hover)"
+msgstr "Gomb szövegszíne (rámutatáskor)"
+
+msgid "Modal"
+msgstr "Felugró ablak"
+
+msgid "Text"
+msgstr "Szöveg"
+
+msgid "Title & price color"
+msgstr "Cím és ár színe"
+
+msgid "Description color"
+msgstr "Leírás színe"
+
+msgid "Sale price color"
+msgstr "Akciós ár színe"
+
+msgid "Text color"
+msgstr "Szöveg színe"
+
+msgid "Text color (hover)"
+msgstr "Szöveg színe (rámutatáskor)"
+
+msgid "View full details link"
+msgstr "Részletek linkje"
+
+msgid "Color"
+msgstr "Szín"
+
+msgid "Color (hover)"
+msgstr "Szín (rámutatáskor)"
+
+msgid "Close button"
+msgstr "Bezárás gomb"
+
+msgid "Size"
+msgstr "Méret"
+
+msgid "Cart Feedback"
+msgstr "Kosár visszajelzés"
+
+msgid "Spinner"
+msgstr "Töltésjelző"
+
+msgid "Spinner color"
+msgstr "Töltésjelző színe"
+
+msgid "Success state"
+msgstr "Sikeres állapot"
+
+msgid "Background color"
+msgstr "Háttérszín"
+
+msgid "Toast notification"
+msgstr "Értesítés"
+
+msgid "View cart button"
+msgstr "Kosár megtekintése gomb"
+
+msgid "Text & border color"
+msgstr "Szöveg és keret színe"
+
+msgid "Hover background"
+msgstr "Háttér rámutatáskor"
+
+msgid "Hover text color"
+msgstr "Szövegszín rámutatáskor"
+
+msgid "Sale Countdown"
+msgstr "Akció visszaszámláló"
+
+msgid "Label color"
+msgstr "Címke színe"
+
+msgid "Number color"
+msgstr "Szám színe"
+
+msgid "Unit label color"
+msgstr "Mértékegység címke színe"
+
+msgid "Layout"
+msgstr "Elrendezés"
+
+msgid "Classic"
+msgstr "Klasszikus"
+
+msgid "Minimal"
+msgstr "Minimál"
+
+msgid "Overlay"
+msgstr "Overlay"
+
+msgid "Skin"
+msgstr "Design"
+
+msgid "Columns"
+msgstr "Oszlopok"
+
+msgid "Gap between slides (px)"
+msgstr "Diák közötti térköz (px)"
+
+msgid "Center mode"
+msgstr "Középre igazított mód"
+
+msgid "Active slide is centered and adjacent slides are partially visible."
+msgstr "Az aktív dia középen van, a szomszédos diák részben látszanak."
+
+msgid "Overlay Skin"
+msgstr "Overlay design"
+
+msgid "Overlay background"
+msgstr "Overlay háttér"
+
+msgid "Title color"
+msgstr "Cím színe"
+
+msgid "Button"
+msgstr "Gomb"
+
+msgid "Arrows"
+msgstr "Nyilak"
+
+msgid "Dots"
+msgstr "Pöttyök"
+
+msgid "Progress bar"
+msgstr "Folyamatjelző sáv"
+
+msgid "Navigation"
+msgstr "Navigáció"
+
+msgid "Thumbnail navigation"
+msgstr "Miniatűr navigáció"
+
+msgid "Thumbnail height"
+msgstr "Miniatűr magassága"
+
+msgid "Thumbnail gap"
+msgstr "Miniatűrök közötti térköz"
+
+msgid "Active border color"
+msgstr "Aktív keret színe"
+
+msgid "Sync slider"
+msgstr "Csúszka szinkronizálása"
+
+msgid "Sync ID"
+msgstr "Szinkron azonosító"
+
+msgid "e.g. gallery-1"
+msgstr "pl. galeria-1"
+
+msgid "Give the same ID to two carousels on this page to sync them."
+msgstr "Adj ugyanazt az azonosítót két karusszelnek ezen az oldalon, hogy szinkronban legyenek."
+
+msgid "Previous icon"
+msgstr "Előző ikon"
+
+msgid "Next icon"
+msgstr "Következő ikon"
+
+msgid "Icon size"
+msgstr "Ikon mérete"
+
+msgid "Normal"
+msgstr "Normál"
+
+msgid "Shadow horizontal"
+msgstr "Árnyék vízszintesen"
+
+msgid "Shadow vertical"
+msgstr "Árnyék függőlegesen"
+
+msgid "Shadow blur"
+msgstr "Árnyék elmosás"
+
+msgid "Shadow spread"
+msgstr "Árnyék kiterjedése"
+
+msgid "Shadow color"
+msgstr "Árnyék színe"
+
+msgid "Hover"
+msgstr "Rámutatáskor"
+
+msgid "Active color"
+msgstr "Aktív szín"
+
+msgid "Height"
+msgstr "Magasság"
+
+msgid "Bar color"
+msgstr "Sáv színe"
+
+msgid "Track color"
+msgstr "Sáv háttér színe"
+
+msgid "Fraction"
+msgstr "Törtszámláló"
+
+msgid "Fraction (1 / 6)"
+msgstr "Törtszámláló (1 / 6)"
+
+msgid "Scrollbar"
+msgstr "Görgetősáv"
+
+msgid "Font size"
+msgstr "Betűméret"
+
+msgid "Current slide color"
+msgstr "Jelenlegi dia színe"
+
+msgid "Drag color"
+msgstr "Húzógomb színe"
+
+msgid "Autoplay"
+msgstr "Automatikus lejátszás"
+
+msgid "Delay (ms)"
+msgstr "Késleltetés (ms)"
+
+msgid "Pause on hover"
+msgstr "Szünet rámutatáskor"
+
+msgid "Infinite loop"
+msgstr "Végtelen ismétlés"
+
+msgid "Transition speed (ms)"
+msgstr "Átmenet sebessége (ms)"
+
+msgid "Query"
+msgstr "Lekérdezés"
+
+msgid "Product source"
+msgstr "Termékforrás"
+
+msgid "Latest products"
+msgstr "Legújabb termékek"
+
+msgid "Featured products"
+msgstr "Kiemelt termékek"
+
+msgid "On sale"
+msgstr "Akciós"
+
+msgid "Best sellers"
+msgstr "Legkelendőbb"
+
+msgid "By category"
+msgstr "Kategória szerint"
+
+msgid "By tag"
+msgstr "Címke szerint"
+
+msgid "Manual selection"
+msgstr "Kézi kiválasztás"
+
+msgid "Related products"
+msgstr "Kapcsolódó termékek"
+
+msgid "Categories"
+msgstr "Kategóriák"
+
+msgid "Tags"
+msgstr "Címkék"
+
+msgid "Product IDs"
+msgstr "Termék azonosítók"
+
+msgid "Comma-separated product IDs, e.g. 12, 45, 78"
+msgstr "Vesszővel elválasztott termék azonosítók, pl. 12, 45, 78"
+
+msgid "Number of products"
+msgstr "Termékek száma"
+
+msgid "Order by"
+msgstr "Rendezés"
+
+msgid "Date"
+msgstr "Dátum"
+
+msgid "Random"
+msgstr "Véletlenszerű"
+
+msgid "Rating"
+msgstr "Értékelés"
+
+msgid "Menu order"
+msgstr "Menü sorrend"
+
+msgid "Order"
+msgstr "Sorrend"
+
+msgid "Descending"
+msgstr "Csökkenő"
+
+msgid "Ascending"
+msgstr "Növekvő"
+
+msgid "Found a translation issue?"
+msgstr "Fordítási hibát találtál?"
+
+msgid "Let us know"
+msgstr "Jelezd nekünk"
+
+msgid "Hide out of stock"
+msgstr "Elfogyott termékek elrejtése"

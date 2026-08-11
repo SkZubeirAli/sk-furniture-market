@@ -1,0 +1,603 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MonkeyDesign Product Carousel for Elementor 1.0.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/monkeydesign-product-carousel\n"
+"POT-Creation-Date: 2026-07-22 11:58+0000\n"
+"PO-Revision-Date: 2026-07-22 11:58+0000\n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Claude Code (manual translation)\n"
+
+msgid "MonkeyDesign Product Carousel for Elementor"
+msgstr "MonkeyDesign Productcarrousel voor Elementor"
+
+msgid "https://monkeydesign.hu/en/products/elementor-addons/monkeydesign-product-carousel"
+msgstr "https://monkeydesign.hu/en/products/elementor-addons/monkeydesign-product-carousel"
+
+msgid "WooCommerce product carousel/slider widget for Elementor — powerful query engine, flexible card builder."
+msgstr "WooCommerce productcarrousel/slider-widget voor Elementor — krachtige query-engine, flexibele kaartbouwer."
+
+msgid "MonkeyDesign"
+msgstr "MonkeyDesign"
+
+msgid "https://monkeydesign.hu"
+msgstr "https://monkeydesign.hu"
+
+msgid "Product Carousel Settings"
+msgstr "Productcarrousel-instellingen"
+
+msgid "Product Carousel"
+msgstr "Productcarrousel"
+
+msgid "by MonkeyDesign"
+msgstr "door MonkeyDesign"
+
+msgid "PRO"
+msgstr "PRO"
+
+msgid "FREE"
+msgstr "GRATIS"
+
+msgid "System Status"
+msgstr "Systeemstatus"
+
+msgid "Active — WooCommerce %s"
+msgstr "Actief — WooCommerce %s"
+
+msgid "Not active. WooCommerce is required."
+msgstr "Niet actief. WooCommerce is vereist."
+
+msgid "Active — Elementor %s"
+msgstr "Actief — Elementor %s"
+
+msgid "Not active. Elementor is required."
+msgstr "Niet actief. Elementor is vereist."
+
+msgid "Upgrade to PRO"
+msgstr "Upgraden naar PRO"
+
+msgid "Quick view modal"
+msgstr "Snelle-weergave-venster"
+
+msgid "AJAX add to cart with feedback"
+msgstr "AJAX toevoegen aan winkelwagen met feedback"
+
+msgid "Wishlist button"
+msgstr "Verlanglijst-knop"
+
+msgid "Sale countdown timer"
+msgstr "Aftel-timer voor aanbieding"
+
+msgid "Overlay skin"
+msgstr "Overlay-skin"
+
+msgid "Thumbnail navigation & slider sync"
+msgstr "Miniatuurnavigatie & slider-synchronisatie"
+
+msgid "Recently viewed products"
+msgstr "Recent bekeken producten"
+
+msgid "Preset export / import"
+msgstr "Voorinstellingen exporteren/importeren"
+
+msgid "Get PRO"
+msgstr "PRO aanschaffen"
+
+msgid "Version"
+msgstr "Versie"
+
+msgid "License"
+msgstr "Licentie"
+
+msgid "Free"
+msgstr "Gratis"
+
+msgid "Author"
+msgstr "Auteur"
+
+msgid "View full details"
+msgstr "Alle details bekijken"
+
+msgid "Out of stock"
+msgstr "Niet op voorraad"
+
+msgid "Sale"
+msgstr "Aanbieding"
+
+msgid "Featured"
+msgstr "Uitgelicht"
+
+msgid "View product"
+msgstr "Product bekijken"
+
+msgid "Add to wishlist: %s"
+msgstr "Toevoegen aan verlanglijst: %s"
+
+msgid "Quick view: %s"
+msgstr "Snelle weergave: %s"
+
+msgid "Quick view"
+msgstr "Snelle weergave"
+
+msgid "Sale ends in"
+msgstr "Aanbieding eindigt over"
+
+msgid "d"
+msgstr "d"
+
+msgid "h"
+msgstr "u"
+
+msgid "m"
+msgstr "m"
+
+msgid "s"
+msgstr "s"
+
+msgid "No products found."
+msgstr "Geen producten gevonden."
+
+msgid "✓ Added to cart"
+msgstr "✓ Toegevoegd aan winkelwagen"
+
+msgid "Previous slide"
+msgstr "Vorige slide"
+
+msgid "Next slide"
+msgstr "Volgende slide"
+
+msgid "Go to slide %d"
+msgstr "Ga naar slide %d"
+
+msgid "Card elements"
+msgstr "Kaartelementen"
+
+msgid "Image"
+msgstr "Afbeelding"
+
+msgid "Badge (sale / featured)"
+msgstr "Badge (aanbieding/uitgelicht)"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Star rating"
+msgstr "Sterbeoordeling"
+
+msgid "Price"
+msgstr "Prijs"
+
+msgid "Short description"
+msgstr "Korte beschrijving"
+
+msgid "Stock status"
+msgstr "Voorraadstatus"
+
+msgid "Add to cart button"
+msgstr "Knop 'In winkelwagen'"
+
+msgid "Quick view button"
+msgstr "Knop snelle weergave"
+
+msgid "Quick view button text"
+msgstr "Knoptekst snelle weergave"
+
+msgid "Sale countdown"
+msgstr "Aftellen aanbieding"
+
+msgid "Cart"
+msgstr "Winkelwagen"
+
+msgid "Enhanced cart feedback"
+msgstr "Verbeterde winkelwagen-feedback"
+
+msgid "Shows a spinner while adding, a success state and a confirmation toast."
+msgstr "Toont een laadanimatie tijdens het toevoegen, een succesmelding en een bevestigingsmelding."
+
+msgid "Toast message text"
+msgstr "Tekst van de melding"
+
+msgid "Toast position"
+msgstr "Positie van de melding"
+
+msgid "Under the widget"
+msgstr "Onder de widget"
+
+msgid "Page — bottom center"
+msgstr "Pagina — onder midden"
+
+msgid "Page — top center"
+msgstr "Pagina — boven midden"
+
+msgid "Page — bottom left"
+msgstr "Pagina — onder links"
+
+msgid "Page — bottom right"
+msgstr "Pagina — onder rechts"
+
+msgid "Page — top left"
+msgstr "Pagina — boven links"
+
+msgid "Page — top right"
+msgstr "Pagina — boven rechts"
+
+msgid "Horizontal offset (px)"
+msgstr "Horizontale verschuiving (px)"
+
+msgid "Vertical offset (px)"
+msgstr "Verticale verschuiving (px)"
+
+msgid "Image size"
+msgstr "Afbeeldingsgrootte"
+
+msgid "WooCommerce thumbnail"
+msgstr "WooCommerce-miniatuur"
+
+msgid "WooCommerce single"
+msgstr "WooCommerce enkel"
+
+msgid "Large"
+msgstr "Groot"
+
+msgid "Full"
+msgstr "Volledig"
+
+msgid "Wishlist Button"
+msgstr "Verlanglijst-knop"
+
+msgid "Button size"
+msgstr "Knopgrootte"
+
+msgid "Border radius"
+msgstr "Randradius"
+
+msgid "Default state"
+msgstr "Standaardstatus"
+
+msgid "Background"
+msgstr "Achtergrond"
+
+msgid "Icon color"
+msgstr "Pictogramkleur"
+
+msgid "Hover state"
+msgstr "Hover-status"
+
+msgid "Background (hover)"
+msgstr "Achtergrond (hover)"
+
+msgid "Icon color (hover)"
+msgstr "Pictogramkleur (hover)"
+
+msgid "Active state (wishlisted)"
+msgstr "Actieve status (op verlanglijst)"
+
+msgid "Background (active)"
+msgstr "Achtergrond (actief)"
+
+msgid "Icon color (active)"
+msgstr "Pictogramkleur (actief)"
+
+msgid "Quick View"
+msgstr "Snelle weergave"
+
+msgid "Button background"
+msgstr "Knopachtergrond"
+
+msgid "Button text color"
+msgstr "Knoptekstkleur"
+
+msgid "Button background (hover)"
+msgstr "Knopachtergrond (hover)"
+
+msgid "Button text color (hover)"
+msgstr "Knoptekstkleur (hover)"
+
+msgid "Modal"
+msgstr "Modaal venster"
+
+msgid "Text"
+msgstr "Tekst"
+
+msgid "Title & price color"
+msgstr "Titel- en prijskleur"
+
+msgid "Description color"
+msgstr "Beschrijvingskleur"
+
+msgid "Sale price color"
+msgstr "Kleur aanbiedingsprijs"
+
+msgid "Text color"
+msgstr "Tekstkleur"
+
+msgid "Text color (hover)"
+msgstr "Tekstkleur (hover)"
+
+msgid "View full details link"
+msgstr "Link 'Alle details bekijken'"
+
+msgid "Color"
+msgstr "Kleur"
+
+msgid "Color (hover)"
+msgstr "Kleur (hover)"
+
+msgid "Close button"
+msgstr "Sluitknop"
+
+msgid "Size"
+msgstr "Grootte"
+
+msgid "Cart Feedback"
+msgstr "Winkelwagen-feedback"
+
+msgid "Spinner"
+msgstr "Laadanimatie"
+
+msgid "Spinner color"
+msgstr "Kleur laadanimatie"
+
+msgid "Success state"
+msgstr "Succesmelding"
+
+msgid "Background color"
+msgstr "Achtergrondkleur"
+
+msgid "Toast notification"
+msgstr "Melding"
+
+msgid "View cart button"
+msgstr "Knop 'Winkelwagen bekijken'"
+
+msgid "Text & border color"
+msgstr "Tekst- en randkleur"
+
+msgid "Hover background"
+msgstr "Achtergrond bij hover"
+
+msgid "Hover text color"
+msgstr "Tekstkleur bij hover"
+
+msgid "Sale Countdown"
+msgstr "Aftellen aanbieding"
+
+msgid "Label color"
+msgstr "Labelkleur"
+
+msgid "Number color"
+msgstr "Cijferkleur"
+
+msgid "Unit label color"
+msgstr "Kleur eenheidslabel"
+
+msgid "Layout"
+msgstr "Lay-out"
+
+msgid "Classic"
+msgstr "Klassiek"
+
+msgid "Minimal"
+msgstr "Minimaal"
+
+msgid "Overlay"
+msgstr "Overlay"
+
+msgid "Skin"
+msgstr "Skin"
+
+msgid "Columns"
+msgstr "Kolommen"
+
+msgid "Gap between slides (px)"
+msgstr "Ruimte tussen slides (px)"
+
+msgid "Center mode"
+msgstr "Gecentreerde modus"
+
+msgid "Active slide is centered and adjacent slides are partially visible."
+msgstr "De actieve slide staat gecentreerd en aangrenzende slides zijn deels zichtbaar."
+
+msgid "Overlay Skin"
+msgstr "Overlay-skin"
+
+msgid "Overlay background"
+msgstr "Overlay-achtergrond"
+
+msgid "Title color"
+msgstr "Titelkleur"
+
+msgid "Button"
+msgstr "Knop"
+
+msgid "Arrows"
+msgstr "Pijlen"
+
+msgid "Dots"
+msgstr "Punten"
+
+msgid "Progress bar"
+msgstr "Voortgangsbalk"
+
+msgid "Navigation"
+msgstr "Navigatie"
+
+msgid "Thumbnail navigation"
+msgstr "Miniatuurnavigatie"
+
+msgid "Thumbnail height"
+msgstr "Miniatuurhoogte"
+
+msgid "Thumbnail gap"
+msgstr "Ruimte tussen miniaturen"
+
+msgid "Active border color"
+msgstr "Actieve randkleur"
+
+msgid "Sync slider"
+msgstr "Slider synchroniseren"
+
+msgid "Sync ID"
+msgstr "Sync-ID"
+
+msgid "e.g. gallery-1"
+msgstr "bijv. galerij-1"
+
+msgid "Give the same ID to two carousels on this page to sync them."
+msgstr "Geef twee carrousels op deze pagina dezelfde ID om ze te synchroniseren."
+
+msgid "Previous icon"
+msgstr "Vorige-pictogram"
+
+msgid "Next icon"
+msgstr "Volgende-pictogram"
+
+msgid "Icon size"
+msgstr "Pictogramgrootte"
+
+msgid "Normal"
+msgstr "Normaal"
+
+msgid "Shadow horizontal"
+msgstr "Schaduw horizontaal"
+
+msgid "Shadow vertical"
+msgstr "Schaduw verticaal"
+
+msgid "Shadow blur"
+msgstr "Schaduwvervaging"
+
+msgid "Shadow spread"
+msgstr "Schaduwspreiding"
+
+msgid "Shadow color"
+msgstr "Schaduwkleur"
+
+msgid "Hover"
+msgstr "Hover"
+
+msgid "Active color"
+msgstr "Actieve kleur"
+
+msgid "Height"
+msgstr "Hoogte"
+
+msgid "Bar color"
+msgstr "Balkkleur"
+
+msgid "Track color"
+msgstr "Spoorkleur"
+
+msgid "Fraction"
+msgstr "Breuk"
+
+msgid "Fraction (1 / 6)"
+msgstr "Breuk (1 / 6)"
+
+msgid "Scrollbar"
+msgstr "Schuifbalk"
+
+msgid "Font size"
+msgstr "Lettergrootte"
+
+msgid "Current slide color"
+msgstr "Kleur huidige slide"
+
+msgid "Drag color"
+msgstr "Sleepkleur"
+
+msgid "Autoplay"
+msgstr "Automatisch afspelen"
+
+msgid "Delay (ms)"
+msgstr "Vertraging (ms)"
+
+msgid "Pause on hover"
+msgstr "Pauzeren bij hover"
+
+msgid "Infinite loop"
+msgstr "Oneindige lus"
+
+msgid "Transition speed (ms)"
+msgstr "Overgangssnelheid (ms)"
+
+msgid "Query"
+msgstr "Query"
+
+msgid "Product source"
+msgstr "Productbron"
+
+msgid "Latest products"
+msgstr "Nieuwste producten"
+
+msgid "Featured products"
+msgstr "Uitgelichte producten"
+
+msgid "On sale"
+msgstr "In de aanbieding"
+
+msgid "Best sellers"
+msgstr "Bestsellers"
+
+msgid "By category"
+msgstr "Op categorie"
+
+msgid "By tag"
+msgstr "Op tag"
+
+msgid "Manual selection"
+msgstr "Handmatige selectie"
+
+msgid "Related products"
+msgstr "Gerelateerde producten"
+
+msgid "Categories"
+msgstr "Categorieën"
+
+msgid "Tags"
+msgstr "Tags"
+
+msgid "Product IDs"
+msgstr "Product-ID's"
+
+msgid "Comma-separated product IDs, e.g. 12, 45, 78"
+msgstr "Kommagescheiden product-ID's, bijv. 12, 45, 78"
+
+msgid "Number of products"
+msgstr "Aantal producten"
+
+msgid "Order by"
+msgstr "Sorteren op"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Random"
+msgstr "Willekeurig"
+
+msgid "Rating"
+msgstr "Beoordeling"
+
+msgid "Menu order"
+msgstr "Menuvolgorde"
+
+msgid "Order"
+msgstr "Volgorde"
+
+msgid "Descending"
+msgstr "Aflopend"
+
+msgid "Ascending"
+msgstr "Oplopend"
+
+msgid "Found a translation issue?"
+msgstr "Vertaalfout gevonden?"
+
+msgid "Let us know"
+msgstr "Laat het ons weten"
+
+msgid "Hide out of stock"
+msgstr "Niet-op-voorraad verbergen"
