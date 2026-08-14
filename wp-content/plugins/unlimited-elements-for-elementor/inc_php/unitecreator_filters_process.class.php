@@ -425,6 +425,7 @@ class UniteCreatorFiltersProcess{
 		if($isTermsAnd == true)
 			$arrValues["relation"] = "AND";
 
+
 		return($arrValues);
 	}
 
@@ -495,9 +496,7 @@ class UniteCreatorFiltersProcess{
 			$arrValues = $this->parseStrTerms_values($strValues);
 
 			$arrTerms[$key] = $arrValues;
-
 		}
-
 
 		//show debug terms
 
@@ -713,6 +712,24 @@ class UniteCreatorFiltersProcess{
 				$arrOutput["authors"] = $arrAuthorIDs;
 			}
 		}
+
+		//meta - same string format as terms: key:value1.value2.*;key2:value3
+		$strMeta = UniteFunctionsUC::getVal($request, "ucmeta");
+
+		if($strMeta === "undefined:undefined")
+			$strMeta = null;
+
+		if(!empty($strMeta)){
+
+			if(self::$showDebug == true)
+				dmp("input meta filters found: $strMeta");
+
+			$arrParsedMeta = $this->parseStrTerms($strMeta);
+			$arrMeta = UniteFunctionsUC::getVal($arrParsedMeta, self::TYPE_TABS);
+
+			if(!empty($arrMeta))
+				$arrOutput["meta"] = $arrMeta;
+		}
 		
 		self::$arrInputFiltersCache = $arrOutput;
 		
@@ -822,6 +839,12 @@ class UniteCreatorFiltersProcess{
 
 		if(!empty($arrAuthors) && is_array($arrAuthors))
 			self::$filters["authors"] = $arrAuthors;
+
+		//meta
+		$arrMeta = UniteFunctionsUC::getVal($arrInputFilters, "meta");
+
+		if(!empty($arrMeta) && is_array($arrMeta))
+			self::$filters["meta"] = $arrMeta;
 		
 				
 		return(self::$filters);
@@ -883,19 +906,14 @@ class UniteCreatorFiltersProcess{
 		foreach($arrTax as $taxonomy=>$arrTerms){
 
 			$relation = UniteFunctionsUC::getVal($arrTerms, "relation");
-
+			
 			if($relation == "AND"){		//multiple
 
 				unset($arrTerms["relation"]);
 
 				foreach($arrTerms as $term){
-
-					$item = array();
-					$item["taxonomy"] = $taxonomy;
-					$item["field"] = "slug";
-					$item["terms"] = $term;
-
-					$arrQuery[] = $item;
+					$arrTermItems = $this->getTaxQuery_getTermItems($taxonomy, $term);
+					$arrQuery = array_merge($arrQuery, $arrTermItems);
 				}
 
 			}else{		//single  (or)
@@ -904,7 +922,7 @@ class UniteCreatorFiltersProcess{
 				$item["taxonomy"] = $taxonomy;
 				$item["field"] = "slug";
 				$item["terms"] = $arrTerms;
-
+					
 				$arrQuery[] = $item;
 			}
 
@@ -914,6 +932,135 @@ class UniteCreatorFiltersProcess{
 
 		return($arrQuery);
 	}
+
+
+	/**
+	 * get tax query items from parsed term (slug string or nested group array)
+	 */
+	private function getTaxQuery_getTermItems($taxonomy, $term){
+
+		if(is_array($term) == false){
+			return(array(
+				array(
+					"taxonomy" => $taxonomy,
+					"field" => "slug",
+					"terms" => $term,
+				)
+			));
+		}
+
+		$innerRelation = UniteFunctionsUC::getVal($term, "relation");
+
+		if($innerRelation == "AND"){
+			unset($term["relation"]);
+
+			$arrItems = array();
+
+			foreach($term as $subTerm){
+				$arrSubItems = $this->getTaxQuery_getTermItems($taxonomy, $subTerm);
+				$arrItems = array_merge($arrItems, $arrSubItems);
+			}
+
+			return($arrItems);
+		}
+
+		if(isset($term["relation"]))
+			unset($term["relation"]);
+
+		return(array(
+			array(
+				"taxonomy" => $taxonomy,
+				"field" => "slug",
+				"terms" => array_values($term),
+			)
+		));
+	}
+
+	/**
+	 * get meta query from parsed meta filters (same structure as terms)
+	 * arrMeta = [meta_key => [value1, value2, "relation"=>"AND"]]
+	 */
+	private function getMetaQuery($arrMeta){
+
+		if(empty($arrMeta) || is_array($arrMeta) == false)
+			return(array());
+
+		$arrQuery = array();
+
+		foreach($arrMeta as $metaKey => $arrValues){
+
+			$metaKey = sanitize_key($metaKey);
+
+			if(empty($metaKey))
+				continue;
+
+			$relation = null;
+
+			if(is_array($arrValues))
+				$relation = UniteFunctionsUC::getVal($arrValues, "relation");
+
+			if(is_array($arrValues) && isset($arrValues["relation"]))
+				unset($arrValues["relation"]);
+
+			if(is_array($arrValues) == false)
+				$arrValues = array($arrValues);
+
+			$arrCleanValues = array();
+
+			foreach($arrValues as $metaValue){
+
+				if(is_array($metaValue))
+					continue;
+
+				$metaValue = sanitize_text_field($metaValue);
+
+				if($metaValue === "" || $metaValue === null)
+					continue;
+
+				$arrCleanValues[] = $metaValue;
+			}
+
+			if(empty($arrCleanValues))
+				continue;
+
+			if($relation == "AND"){
+
+				foreach($arrCleanValues as $metaValue){
+
+					$arrQuery[] = array(
+						"key" => $metaKey,
+						"value" => $metaValue,
+						"compare" => "=",
+					);
+				}
+
+			}else{
+
+				if(count($arrCleanValues) == 1){
+
+					$arrQuery[] = array(
+						"key" => $metaKey,
+						"value" => $arrCleanValues[0],
+						"compare" => "=",
+					);
+
+				}else{
+
+					$arrQuery[] = array(
+						"key" => $metaKey,
+						"value" => $arrCleanValues,
+						"compare" => "IN",
+					);
+				}
+			}
+		}
+
+		if(count($arrQuery) > 1)
+			$arrQuery["relation"] = "AND";
+
+		return($arrQuery);
+	}
+
 
 	/**
 	 * remove "not in" tax query
@@ -1015,6 +1162,7 @@ class UniteCreatorFiltersProcess{
 		$titleStart = UniteFunctionsUC::getVal($arrFilters, "titlestart");
 		$mainTermID = UniteFunctionsUC::getVal($arrFilters, "maintermid");
 		$arrAuthors = UniteFunctionsUC::getVal($arrFilters, "authors");
+		$arrMeta = UniteFunctionsUC::getVal($arrFilters, "meta");
 		
 		
 		if(!empty($page))
@@ -1148,6 +1296,32 @@ class UniteCreatorFiltersProcess{
                 'compare' => '<=',
                 'type' => 'NUMERIC'
         	);
+		}
+
+		//meta filter - same structure as terms (key => values)
+		if(!empty($arrMeta) && is_array($arrMeta)){
+
+			$arrMetaFromFilter = $this->getMetaQuery($arrMeta);
+
+			if(!empty($arrMetaFromFilter)){
+
+				$relation = UniteFunctionsUC::getVal($arrMetaFromFilter, "relation");
+
+				if(isset($arrMetaFromFilter["relation"]))
+					unset($arrMetaFromFilter["relation"]);
+
+				if(count($arrMetaFromFilter) == 1){
+
+					$arrMetaQuery[] = $arrMetaFromFilter[0];
+
+				}elseif(count($arrMetaFromFilter) > 1){
+
+					if(!empty($relation))
+						$arrMetaFromFilter["relation"] = $relation;
+
+					$arrMetaQuery[] = $arrMetaFromFilter;
+				}
+			}
 		}
 		
 
@@ -2028,7 +2202,8 @@ class UniteCreatorFiltersProcess{
 
 		if($responseCode != 200){
 			http_response_code(200);
-			UniteFunctionsUC::throwError("Request not allowed, please make sure the ajax is allowed for the ajax grid");
+			//$responseCode = (int)$responseCode;
+			//UniteFunctionsUC::throwError("Request not allowed, please make sure the ajax is allowed for the ajax grid. the response code is: $responseCode");
 		}
 
 		//init widget by post id and element id
@@ -3438,6 +3613,121 @@ class UniteCreatorFiltersProcess{
 
 
 	/**
+	 * convert metaselect repeater rows to filter items
+	 */
+	private function modifyOutputMetaSelect_getItems($data){
+
+		$metaSelect = UniteFunctionsUC::getVal($data, "metaselect");
+
+		$arrRows = array();
+
+		if(is_array($metaSelect)){
+
+			$arrRows = UniteFunctionsUC::getVal($metaSelect, "items");
+
+			if(empty($arrRows))
+				$arrRows = UniteFunctionsUC::getVal($metaSelect, "metaselect_items");
+
+			//already converted flat list of items
+			if(empty($arrRows)){
+				$first = reset($metaSelect);
+
+				if(is_array($first) && (isset($first["meta_key"]) || isset($first["title"]) || isset($first["name"])))
+					$arrRows = $metaSelect;
+			}
+		}
+
+		if(empty($arrRows))
+			$arrRows = UniteFunctionsUC::getVal($data, "metaselect_items");
+
+		if(empty($arrRows) || is_array($arrRows) == false)
+			return(array());
+
+		$arrItems = array();
+
+		foreach($arrRows as $index => $row){
+
+			if(is_array($row) == false)
+				continue;
+
+			$title = UniteFunctionsUC::getVal($row, "title");
+			if(empty($title))
+				$title = UniteFunctionsUC::getVal($row, "name");
+
+			$metaKey = UniteFunctionsUC::getVal($row, "meta_key");
+			if(empty($metaKey))
+				$metaKey = UniteFunctionsUC::getVal($row, "slug");
+
+			$metaValue = UniteFunctionsUC::getVal($row, "meta_value");
+
+			if(empty($title) && empty($metaKey))
+				continue;
+
+			$id = UniteFunctionsUC::getVal($row, "_id");
+			if(empty($id))
+				$id = $metaKey;
+
+			$item = array();
+			$item["index"] = $index;
+			$item["id"] = $id;
+			$item["name"] = $title;
+			$item["slug"] = $metaKey;
+			$item["meta_key"] = $metaKey;
+			$item["meta_value"] = $metaValue;
+			$item["link"] = "";
+			$item["taxonomy"] = "";
+			$item["addclass"] = "";
+
+			$arrItems[] = $item;
+		}
+
+		return($arrItems);
+	}
+
+
+	/**
+	 * get data attributes for metaselect items
+	 */
+	private function modifyOutputMetaSelect_getDataAttributes($arrItems, $filterType){
+
+		if(empty($arrItems))
+			return($arrItems);
+
+		foreach($arrItems as $index => $item){
+
+			$id = UniteFunctionsUC::getVal($item, "id");
+			$metaKey = UniteFunctionsUC::getVal($item, "meta_key");
+			$metaValue = UniteFunctionsUC::getVal($item, "meta_value");
+			$slug = UniteFunctionsUC::getVal($item, "slug", $metaKey);
+			$title = UniteFunctionsUC::getVal($item, "name");
+
+			if(empty($id) && empty($metaKey))
+				continue;
+
+			$type = "meta";
+
+			$title = esc_attr($title);
+			$slug = esc_attr($slug);
+			$metaKey = esc_attr($metaKey);
+			$metaValue = esc_attr($metaValue);
+			$id = esc_attr($id);
+
+			$key = "{$type}|{$metaKey}";
+			if($metaValue !== "")
+				$key .= ":{$metaValue}";
+
+			$htmlData = " data-id=\"$id\" data-type=\"$type\" data-slug=\"$slug\" data-metakey=\"$metaKey\" data-metavalue=\"$metaValue\" data-title=\"{$title}\" data-key=\"{$key}\" ";
+
+			$item["html_data"] = $htmlData;
+
+			$arrItems[$index] = $item;
+		}
+
+		return($arrItems);
+	}
+
+
+	/**
 	 * get filter attributes for search filter
 	 */
 	private function addEditorFilterArguments_search($data){
@@ -3496,6 +3786,7 @@ class UniteCreatorFiltersProcess{
 		$filterSource = UniteFunctionsUC::getVal($data, "filter_source");
 		
 		$isAuthors = ($filterSource == "authors");
+		$isMeta = ($filterSource == "meta");
 		
 		if($isAuthors == true && $showNumberOfPosts == true)
 			$isInitAfter = true;
@@ -3559,11 +3850,14 @@ class UniteCreatorFiltersProcess{
 		
 		if($isAuthors == true)
 			$arrItems = UniteFunctionsUC::getVal($data, "authors");
+		elseif($isMeta == true)
+			$arrItems = $this->modifyOutputMetaSelect_getItems($data);
 		else
 			$arrItems = UniteFunctionsUC::getVal($data, "taxonomy");
 		
 		//modify the hidden as well
-		$arrItems = $this->modifyOutputTerms_setNumPosts($arrItems, $isAuthors);
+		if($isMeta == false)
+			$arrItems = $this->modifyOutputTerms_setNumPosts($arrItems, $isAuthors);
 		
 		//modify the selected class - add first
 		if($isAuthors == true)
@@ -3575,7 +3869,7 @@ class UniteCreatorFiltersProcess{
 		$arrItems = $this->modifyOutputTerms_modifySelected($arrItems, $data,$filterType);
 		
 		//for terms only
-		if($isAuthors == false)
+		if($isAuthors == false && $isMeta == false)
 			$arrItems = $this->modifyOutputTerms_modifySelectedByRequest($arrItems);
 		
 		$isFilterHidden = false;
@@ -3605,6 +3899,8 @@ class UniteCreatorFiltersProcess{
 		
 		if($isAuthors == true)
 			$arrItems = $this->modifyOutputAuthors_getDataAttributes($arrItems, $filterType);
+		elseif($isMeta == true)
+			$arrItems = $this->modifyOutputMetaSelect_getDataAttributes($arrItems, $filterType);
 		else
 			$arrItems = $this->modifyOutputTerms_getDataAttributes($arrItems, $filterType);
 		
@@ -3633,6 +3929,8 @@ class UniteCreatorFiltersProcess{
 		
 		if($isAuthors)
 			$data["authors"] = $arrItems;
+		elseif($isMeta)
+			$data["metaselect"] = $arrItems;
 		else
 			$data["taxonomy"] = $arrItems;
 		

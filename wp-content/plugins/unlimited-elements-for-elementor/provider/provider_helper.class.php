@@ -137,6 +137,41 @@ class HelperProviderUC{
 
 
 	/**
+	 * get meta select repeater default values
+	 */
+	public static function getMetaSelectDefaultValues(){
+
+		return(array());
+	}
+
+
+	/**
+	 * get meta select repeater fields
+	 */
+	public static function getMetaSelectRepeaterFields(){
+
+		$settings = new UniteCreatorSettings();
+
+		$params = array();
+		$params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
+
+		$settings->addTextBox("title", "", __("Title", "unlimited-elements-for-elementor"), $params);
+
+		$params = array();
+		$params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
+
+		$settings->addTextBox("meta_key", "", __("Meta Key", "unlimited-elements-for-elementor"), $params);
+
+		$params = array();
+		$params["origtype"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
+
+		$settings->addTextBox("meta_value", "", __("Meta Value", "unlimited-elements-for-elementor"), $params);
+
+		return($settings);
+	}
+
+
+	/**
 	 * get data for meta compare select
 	 */
 	public static function getArrMetaCompareSelect(){
@@ -591,6 +626,9 @@ class HelperProviderUC{
 	 * @param mixed $httpContext Optional context for getUrlContents HTTP hooks (ue_http_pre_request / ue_http_response).
 	 */
 	public static function getRepeaterItems_json($arrValues, $name, $showDebugData = false, $showDebugContent = false, $httpContext = null){
+		
+		$showDebugData = ($showDebugData == true && HelperUC::canShowDebugOutput());
+		$showDebugContent = ($showDebugContent == true && HelperUC::canShowDebugOutput());
 		
 		$contentLocation = UniteFunctionsUC::getVal($arrValues, $name."_json_csv_location");
 		
@@ -1278,6 +1316,11 @@ class HelperProviderUC{
 					
 					$params["add_dynamic"] = true;
 					
+					$settingsManager->addTextBox($paramName, $paramDefault, $field["text"], $params);
+				break;
+				case UniteCreatorDialogParam::PARAM_NUMBER:
+					$params["origtype"] = UniteCreatorDialogParam::PARAM_NUMBER;
+					$params["add_dynamic"] = true;
 					$settingsManager->addTextBox($paramName, $paramDefault, $field["text"], $params);
 				break;
 				case UniteCreatorDialogParam::PARAM_DROPDOWN:

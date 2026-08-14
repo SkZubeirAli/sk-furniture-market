@@ -2069,6 +2069,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     		break;
     		case UniteCreatorDialogParam::PARAM_INSTAGRAM:
     		case UniteCreatorDialogParam::PARAM_POST_TERMS:
+    		case UniteCreatorDialogParam::PARAM_META_SELECT:
     		case UniteCreatorDialogParam::PARAM_WOO_CATS:
     		case UniteCreatorDialogParam::PARAM_USERS:
     		case UniteCreatorDialogParam::PARAM_TEMPLATE:
@@ -4164,6 +4165,9 @@ class UniteCreatorElementorWidget extends Widget_Base {
 			
 	        if($isDebugFromGet === true)
 	        	$isShowDebugData = true;
+
+	        if($isShowDebugData == true && HelperUC::canShowDebugOutput() == false)
+	        	$isShowDebugData = false;
 
 	        if($isShowDebugData == true){
 

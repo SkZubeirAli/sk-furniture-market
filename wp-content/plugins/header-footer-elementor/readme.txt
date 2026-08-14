@@ -4,7 +4,7 @@ Tags: elementor, elementor addons, elementor widgets, elementor template, header
 Requires at least: 5.0  
 Tested up to: 7.0
 Requires PHP: 7.4  
-Stable tag: 2.9.1
+Stable tag: 2.9.3
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -310,12 +310,21 @@ You can report the issue through our [Bug Bounty Program](https://brainstormforc
 ---
 
 == Changelog ==
+= 2.9.3 =
+- Fix: Nav Menu - Flyout layout toggle icon disappeared when the menu was opened and did not reappear until the page was reloaded.
+- Fix: Templates - Template Type and Display Rules are no longer lost when clicking Edit with Elementor on an unsaved template.
+- Fix: RTL - Resolved a horizontal scrolling issue on right-to-left sites caused by the hidden skip-to-content link in the default header, ensuring page content stays within the viewport.
+
+= 2.9.2 =
+- Fix: Security - A security vulnerability in UAE has been identified and patched. We recommend updating to 2.9.2 immediately. Props to Asaf Mozes from WPScan for responsibly disclosing this to our team.
+
 = 2.9.1 =
 - New: UAE now includes translations for 15 additional languages - Indonesian, Brazilian Portuguese, Russian, Italian, Turkish, Japanese, Simplified Chinese, Polish, Arabic, Swedish, Vietnamese, Hebrew, Thai, Greek, and Czech - alongside refreshed Dutch, French, Spanish, and German, enhancing multilingual accessibility.
 - Improvement: Compatibility with latest Elementor and Elementor Pro 4.2 version.
 
 = 2.9.0 =
 - New: AI Tools - Connect AI assistants like Claude to your site and build or manage your headers, footers, and templates using plain-English commands, powered by the new MCP (Model Context Protocol) integration. (https://ultimateelementor.com/docs/uae-ai-tools-connect-ai-to-your-elementor-site/)
+- Improvement: Admin - The dashboard app now uses WordPress's bundled React runtime (@wordpress/element) instead of its own react-dom copy, ensuring forward compatibility with React 19 in WordPress.
 - Fix: Accessibility - Skip to main content link is now retained when HFE replaces the theme header, restoring keyboard navigation on themes that are not natively supported.
 
 = 2.8.8 =

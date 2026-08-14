@@ -1,4 +1,28 @@
 
+
+version 2.0.16:
+
+* Feature: added option for youtube playlist
+* Feature: added option for google calendar
+* Feature: added option for filter by meta 
+* Fix: fixed some security issue
+
+version 2.0.15:
+
+* Feature: added option for youtube playlist
+* Fix: fixed one security issue
+* Change: updated freemius framework to latest version
+
+
+version 2.0.14:
+
+* Feature: added option: number of requests for serp api
+* Fix: fixed dynamic controls color for dynamic loop
+* Fix: fixed "and" clouser inside a filter checkbox group
+* Fix: fixed the "get_items" bug for ajax 
+* Fix: fixed the response code issue in ajax calls 
+
+
 version 2.0.13:
 
 * Fix: fixed gallery output

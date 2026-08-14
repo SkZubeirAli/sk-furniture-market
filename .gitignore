@@ -23,3 +23,14 @@ Thumbs.db
 
 # Environment
 .env
+
+
+# WordPress backups
+wp-content/ai1wm-backups/
+*.wpress
+
+# WordPress generated files
+wp-content/uploads/
+# All-in-One WP Migration backups
+wp-content/ai1wm-backups/
+*.wpress

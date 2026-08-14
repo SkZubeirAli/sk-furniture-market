@@ -673,15 +673,27 @@ class UCOperations extends UniteElementsBaseUC{
 		if(empty($pathFile))
 			return (null);
 
+		$filetype = wp_check_filetype(basename($pathFile));
+		$extIsImage = !empty($filetype["type"]) && strpos($filetype["type"], "image/") === 0;
+
+		$mimeType = wp_get_image_mime($pathFile);
+		if(empty($mimeType) && function_exists("mime_content_type"))
+			$mimeType = mime_content_type($pathFile);
+
+		$mimeIsImage = !empty($mimeType) && strpos($mimeType, "image/") === 0;
+
+		if($extIsImage == false || $mimeIsImage == false)
+			return (null);
+
 		$content = UniteFunctionsUC::fileGetContents($pathFile);
 
 		return ($content);
 	}
 
 	/**
-	 * get url contents from file or url with cache
+	 * get url contents via HTTP with cache
 	 *
-	 * HTTP hooks (remote URLs only): ue_http_pre_request, ue_http_response.
+	 * HTTP hooks: ue_http_pre_request, ue_http_response.
 	 *
 	 * @param mixed $httpContext Optional context passed to hooks (e.g. repeater / addon metadata).
 	 */
@@ -689,7 +701,7 @@ class UCOperations extends UniteElementsBaseUC{
 		
 		if($debug === true)
 			dmp("get contents from url: $url");
-						
+		
 		$url = UniteFunctionsUC::sanitize($url, UniteFunctionsUC::SANITIZE_URL_TRAVERSE);
 		
 		if(!empty($url))
@@ -698,47 +710,6 @@ class UCOperations extends UniteElementsBaseUC{
 		if(empty($url) && $debug == true){
 			dmp("url don't pass the security");
 			return(null);
-		}
-		
-		$urlRelative = HelperUC::URLtoRelative($url);
-		
-		$isFile = $urlRelative != $url;
-
-		if($isFile === true){
-			
-			$pathFile = HelperUC::urlToPath($url);
-			
-			$isUnderBase = HelperUC::isFileUnderBase($pathFile);
-			
-			if($isUnderBase == false){
-				
-				if($debug === true){
-					
-					dmp("file not exists, or not pass security");
-					exit;
-				}
-				
-				return(false);
-			}
-			
-			
-			if(empty($pathFile)){
-				
-				if($debug === true){
-					$pathFile = GlobalsUC::$path_base . $urlRelative;
-					
-					dmp("empty file path:  $pathFile");
-				}
-
-				return null;
-			}
-
-			if($debug === true)
-				dmp("file detected: $pathFile");
-
-			$content = UniteFunctionsUC::fileGetContents($pathFile);
-
-			return $content;
 		}
 
 		try{
@@ -825,134 +796,6 @@ class UCOperations extends UniteElementsBaseUC{
 		return $displayDate;
 	}
 
-	private function a____________SCREENSHOTS____________(){
-	}
-
-	/**
-	 * get filepath of layout screenshot. existing or new
-	 */
-	private function saveScreenshot_layout_getFilepath($objLayout, $ext){
-
-		//check existing path
-		$pathImage = $objLayout->getPreviewImageFilepath();
-
-		if($pathImage){
-			$isGenerated = UniteFunctionsUC::isPathUnderBase($pathImage, GlobalsUC::$path_images_screenshots);
-
-			$info = pathinfo($pathImage);
-			$extExisting = UniteFunctionsUC::getVal($info, "extension");
-			if($extExisting == $ext && $isGenerated == true)
-				return ($pathImage);
-		}
-
-		$title = $objLayout->getTitle();
-		$type = $objLayout->getLayoutType();
-
-		$filename = "layout_" . HelperUC::convertTitleToHandle($title);
-
-		if(!empty($type))
-			$filename .= "_" . $type;
-
-		$addition = "";
-		$counter = 1;
-		do{
-			$filepath = GlobalsUC::$path_images_screenshots . $filename . $addition . "." . $ext;
-			$isExists = file_exists($filepath);
-
-			$counter++;
-			$addition = "_" . $counter;
-		}while($isExists == true);
-
-		return ($filepath);
-	}
-
-	/**
-	 * save layout screenshot
-	 */
-	private function saveScreenshot_layout($layoutID, $screenshotData, $ext){
-
-		$objLayout = new UniteCreatorLayout();
-		$objLayout->initByID($layoutID);
-
-		UniteFunctionsUC::checkCreateDir(GlobalsUC::$path_images_screenshots);
-
-		//create filename
-		$filepath = $this->saveScreenshot_layout_getFilepath($objLayout, $ext);
-
-		//delete previous
-		$pathExistingImage = $objLayout->getPreviewImageFilepath();
-		$isGenerated = UniteFunctionsUC::isPathUnderBase($pathExistingImage, GlobalsUC::$path_images_screenshots);
-		if($isGenerated == true && $pathExistingImage != $filepath && file_exists($pathExistingImage))
-			@unlink($pathExistingImage);
-
-		//write current
-		UniteFunctionsUC::writeFile($screenshotData, $filepath);
-
-		if(file_exists($filepath) == false){
-			UniteFunctionsUC::throwError("The screenshot could not be created");
-		}
-
-		$urlScreenshot = HelperUC::pathToRelativeUrl($filepath);
-
-		$objLayout->updateParam("preview_image", $urlScreenshot);
-		$objLayout->updateParam("page_image", "");
-
-		$urlScreenshotFull = HelperUC::URLtoFull($urlScreenshot);
-
-		return ($urlScreenshotFull);
-	}
-
-	/**
-	 * save screenshot
-	 * Enter description here ...
-	 */
-	public function saveScreenshotFromData($data){
-
-		try{
-			$source = UniteFunctionsUC::getVal($data, "source");
-			$layoutID = UniteFunctionsUC::getVal($data, "layoutid");
-			$screenshotData = UniteFunctionsUC::getVal($data, "screenshot_data");
-			$ext = UniteFunctionsUC::getVal($data, "ext");
-
-			UniteFunctionsUC::validateNotEmpty($layoutID, "layoutID");
-
-			switch($ext){
-				case "jpg":
-					$screenshotData = $this->imageView->convertJPGDataToJPG($screenshotData);
-				break;
-				case "png":
-					$screenshotData = $this->imageView->convertPngDataToPng($screenshotData);
-				break;
-				default:
-					UniteFunctionsUC::throwError("wrong extension");
-				break;
-			}
-
-			switch($source){
-				case "layout":
-					$urlScreenshot = $this->saveScreenshot_layout($layoutID, $screenshotData, $ext);
-				break;
-				case "addon":
-					dmp("save addon screenshot");
-				break;
-				default:
-					UniteFunctionsUC::throwError("wrong save source");
-				break;
-			}
-		}catch(Exception $e){
-			$errorMessage = $e->getMessage();
-			$output = array();
-			$output["error_message"] = $errorMessage;
-
-			return ($errorMessage);
-		}
-
-		$output = array();
-		$output["url_screenshot"] = $urlScreenshot;
-		$output["layoutid"] = $layoutID;
-
-		return ($output);
-	}
 
 	/**
 	 * get post list for select
