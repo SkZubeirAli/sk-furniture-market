@@ -4,7 +4,7 @@ A modern furniture e-commerce website built using **WordPress** and **WooCommerc
 
 ## Project Overview
 
-This project is being developed for a furniture business with a clean, responsive, and user-friendly design.
+This project is being developed for a furniture business with a clean, responsive, and user-friendly design
 
 ## Features
 
