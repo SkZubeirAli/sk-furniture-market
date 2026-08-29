@@ -906,6 +906,7 @@ $fluentformDefaultElements = [
                 'enable_other_option' => 'no',
                 'other_option_label' => __('Other', 'fluentform'),
                 'other_option_placeholder' => __('Please specify...', 'fluentform'),
+                'other_option_required_message' => __('Please specify a value for the selected "Other" option', 'fluentform'),
                 'validation_rules'   => [
                     'required' => [
                         'value'   => false,
@@ -967,11 +968,25 @@ $fluentformDefaultElements = [
                 'enable_other_option' => 'no',
                 'other_option_label' => __('Other', 'fluentform'),
                 'other_option_placeholder' => __('Please specify...', 'fluentform'),
+                'other_option_required_message' => __('Please specify a value for the selected "Other" option', 'fluentform'),
                 'validation_rules'   => [
                     'required' => [
                         'value'   => false,
                         'message' => $fluentformDefaultGlobalMessages['required'],
                         'global_message' => $fluentformDefaultGlobalMessages['required'],
+                        'global'  => true,
+                    ],
+                    // Key order is the panel's layout order.
+                    'max_selection' => [
+                        'value'   => '',
+                        'message' => $fluentformDefaultGlobalMessages['max_selection'],
+                        'global_message' => $fluentformDefaultGlobalMessages['max_selection'],
+                        'global'  => true,
+                    ],
+                    'min_selection' => [
+                        'value'   => '',
+                        'message' => $fluentformDefaultGlobalMessages['min_selection'],
+                        'global_message' => $fluentformDefaultGlobalMessages['min_selection'],
                         'global'  => true,
                     ],
                 ],
@@ -1025,6 +1040,20 @@ $fluentformDefaultElements = [
                         'value'   => false,
                         'message' => $fluentformDefaultGlobalMessages['required'],
                         'global_message' => $fluentformDefaultGlobalMessages['required'],
+                        'global'  => true,
+                    ],
+                    // settings.max_selection above stays as the legacy fallback;
+                    // only a rule can carry an editable error message.
+                    'max_selection' => [
+                        'value'   => '',
+                        'message' => $fluentformDefaultGlobalMessages['max_selection'],
+                        'global_message' => $fluentformDefaultGlobalMessages['max_selection'],
+                        'global'  => true,
+                    ],
+                    'min_selection' => [
+                        'value'   => '',
+                        'message' => $fluentformDefaultGlobalMessages['min_selection'],
+                        'global_message' => $fluentformDefaultGlobalMessages['min_selection'],
                         'global'  => true,
                     ],
                 ],
@@ -1623,7 +1652,7 @@ $fluentformDefaultElements = [
                 'is_width_auto_calc' => true,
             ],
             'columns' => [
-                ['width' => '', 'left' => '', 'fields' => []],
+                ['width' => 100, 'left' => '', 'fields' => []],
             ],
             'editor_options' => [
                 'title'      => __('One Column Container', 'fluentform'),

@@ -45,8 +45,24 @@ class Select extends BaseComponent
             $data['attributes']['class'] .= ' ff_has_multi_select';
         }
 
-        if ($maxSelection = ArrayHelper::get($data, 'settings.max_selection')) {
+        $maxSelection = Helper::resolveMaxSelection($data);
+
+        if ($maxSelection) {
             $data['attributes']['data-max_selected_options'] = $maxSelection;
+
+            // Choices.js blocks the pick and draws its own notice, so that notice
+            // is the only wording a visitor ever sees for this limit. Only a
+            // message the site owner actually wrote overrides it — Choices' own
+            // string is translated and carries the count, so a field left on the
+            // global default is better served by it.
+            $rules = ArrayHelper::get($data, 'settings.validation_rules', []);
+            $customMessage = ArrayHelper::isTrue($rules, 'max_selection.global')
+                ? ''
+                : ArrayHelper::get($rules, 'max_selection.message', '');
+
+            if ($customMessage) {
+                $data['attributes']['data-max_selection_message'] = $customMessage;
+            }
         }
 
         $data['attributes']['data-calc_value'] = 0;

@@ -79,29 +79,13 @@ class SubmissionHandlerService
                 });
             }
 
-            // Process "Other" options for checkboxes and radio fields
-            if (strpos($name, '__ff_other_input__') !== false && !empty($input)) {
+            // Resolve a checkbox/radio "Other" selection once its free text is known.
+            if (strpos($name, '__ff_other_input__') !== false) {
                 $fieldName = str_replace('__ff_other_input__', '', $name);
-                // Store with the field's own (translated) "Other" label as prefix
-                $rawField = Arr::get(FormFieldsParser::getInputs($this->form, ['raw']), $fieldName . '.raw', []);
-                $otherPrefix = Helper::getOtherOptionValuePrefix($rawField, $this->form);
 
-                // Handle checkbox fields (array values)
-                if (isset($formDataRaw[$fieldName]) && is_array($formDataRaw[$fieldName])) {
-                    $selectedValues = $formDataRaw[$fieldName];
-
-                    // Handle field-specific "Other" values
-                    $otherValue = '__ff_other_' . $fieldName . '__';
-
-                    $key = array_search($otherValue, $selectedValues);
-
-                    if (false !== $key) {
-                        $selectedValues[$key] = $otherPrefix . sanitize_text_field($input);
-                        $formDataRaw[$fieldName] = $selectedValues;
-                    }
-                } elseif (isset($formDataRaw[$fieldName]) && '__ff_other_' . $fieldName . '__' === $formDataRaw[$fieldName]) {
-                    // Handle radio fields (single value)
-                    $formDataRaw[$fieldName] = $otherPrefix . sanitize_text_field($input);
+                if (isset($formDataRaw[$fieldName])) {
+                    $otherText = is_scalar($input) ? trim((string) $input) : '';
+                    $formDataRaw[$fieldName] = $this->resolveOtherOption($formDataRaw[$fieldName], $fieldName, $otherText);
                 }
 
                 unset($formDataRaw[$name]);
@@ -125,6 +109,50 @@ class SubmissionHandlerService
         $acceptedFieldKeys = array_merge($this->fields, array_flip(Helper::getWhiteListedFields($formId)));
 
         $this->formData = array_intersect_key($formData, $acceptedFieldKeys);
+    }
+
+    /**
+     * Resolve a checkbox/radio "Other" selection now that its free text is known.
+     *
+     * Until here the field value carries the placeholder marker
+     * `__ff_other_<field>__`. With text, swap the marker for the labelled answer
+     * ("<Other label>: <text>"); without text, drop the marker so it never
+     * reaches storage — and from there entry details, emails, PDFs and integrations.
+     *
+     * @param  array|string $fieldValue checkbox array or radio string
+     * @param  string       $fieldName
+     * @param  string       $otherText  trimmed free text typed for "Other"
+     * @return array|string
+     */
+    protected function resolveOtherOption($fieldValue, $fieldName, $otherText)
+    {
+        $otherMarker = '__ff_other_' . $fieldName . '__';
+
+        // Empty "Other": remove the marker.
+        if ('' === $otherText) {
+            if (is_array($fieldValue)) {
+                return array_values(array_filter($fieldValue, function ($selectedValue) use ($otherMarker) {
+                    return $selectedValue !== $otherMarker;
+                }));
+            }
+
+            return $fieldValue === $otherMarker ? '' : $fieldValue;
+        }
+
+        // Filled "Other": replace the marker with the labelled free text.
+        $rawField = Arr::get(FormFieldsParser::getInputs($this->form, ['raw']), $fieldName . '.raw', []);
+        $labelledAnswer = Helper::getOtherOptionValuePrefix($rawField, $this->form) . sanitize_text_field($otherText);
+
+        if (is_array($fieldValue)) {
+            $markerIndex = array_search($otherMarker, $fieldValue);
+            if (false !== $markerIndex) {
+                $fieldValue[$markerIndex] = $labelledAnswer;
+            }
+
+            return $fieldValue;
+        }
+
+        return $fieldValue === $otherMarker ? $labelledAnswer : $fieldValue;
     }
 
 

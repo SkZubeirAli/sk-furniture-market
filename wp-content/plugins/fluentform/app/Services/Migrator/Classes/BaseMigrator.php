@@ -1538,6 +1538,8 @@ abstract class BaseMigrator
         $formattedTypes = explode(', ', ArrayHelper::get($field, $arg, ''));
         $fileTypeOptions = [];
         foreach ($formattedTypes as $format) {
+            // $allFileTypes is lowercase; the source plugin's list is user-entered.
+            $format = strtolower($format);
             foreach ($allFileTypes as $fileTypes) {
                 if (!empty($format) && (strpos($fileTypes, $format) !== false)) {
                     array_push($fileTypeOptions, $fileTypes);

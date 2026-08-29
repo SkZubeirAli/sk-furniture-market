@@ -3,8 +3,8 @@
  * Plugin Name: 1 Razorpay
  * Plugin URI: https://razorpay.com
  * Description: Razorpay Payment Gateway Integration for WooCommerce.Razorpay Welcome Back Offer: New to Razorpay? Sign up to enjoy FREE payments* of INR 2 lakh till March 31st! Transact before January 10th to grab the offer.
- * Version: 4.8.6
- * Stable tag: 4.8.6
+ * Version: 4.8.7
+ * Stable tag: 4.8.7
  * Author: Team Razorpay
  * WC tested up to: 10.6.2
  * Author URI: https://razorpay.com
@@ -433,7 +433,7 @@ function woocommerce_razorpay_init()
                 add_action("woocommerce_update_options_payment_gateways_{$this->id}", $cb);
                 add_action( "woocommerce_update_options_payment_gateways_{$this->id}", array($this, 'autoEnableWebhook'));
                 add_action( "woocommerce_update_options_payment_gateways_{$this->id}", array($this, 'addAdminCheckoutSettingsAlert'));
-                add_action( "woocommerce_update_options_payment_gateways_{$this->id}",  'createOneCCAddressSyncCron');
+                add_action( "woocommerce_update_options_payment_gateways_{$this->id}",  'createAllAddressSyncCrons');
                 add_action( "woocommerce_update_options_payment_gateways_{$this->id}",  'syncPluginFetchCron');
             }
             else
@@ -442,7 +442,7 @@ function woocommerce_razorpay_init()
                 add_action('woocommerce_update_options_payment_gateways', $cb);
                 add_action( "woocommerce_update_options_payment_gateways", array($this, 'autoEnableWebhook'));
                 add_action( "woocommerce_update_options_payment_gateways", array($this, 'addAdminCheckoutSettingsAlert'));
-                add_action( "woocommerce_update_options_payment_gateways", 'createOneCCAddressSyncCron');
+                add_action( "woocommerce_update_options_payment_gateways", 'createAllAddressSyncCrons');
                 add_action( "woocommerce_update_options_payment_gateways_{$this->id}",  'syncPluginFetchCron');
             }
 

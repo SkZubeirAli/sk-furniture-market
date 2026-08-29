@@ -30,11 +30,12 @@ class Settings
     /**
      * Render the page for native global settings components
      *
+     * @param string $defaultComponent
      * @throws \Exception
      */
-    public function render()
+    public function render($defaultComponent = 'settings')
     {
-        $this->enqueue();
+        $this->enqueue($defaultComponent);
 
         $this->app->view->render('admin.globalSettings.settings');
     }
@@ -42,9 +43,10 @@ class Settings
     /**
      * Enqueue necessary resources.
      *
+     * @param string $defaultComponent
      * @throws \Exception
      */
-    public function enqueue()
+    public function enqueue($defaultComponent = 'settings')
     {
         wp_enqueue_script('fluentform-global-settings-js');
         
@@ -53,7 +55,9 @@ class Settings
             'akismet_activated'     => AkismetHandler::isPluginEnabled(),
             'cleantalk_activated'   => CleanTalkHandler::isPluginEnabled(),
             'has_pro'               => Helper::hasPro(),
+            'upgrade_url'           => fluentform_upgrade_url(),
             'is_payment_compatible' => Helper::isPaymentCompatible(),
+            'default_component'     => sanitize_key($defaultComponent),
             'form_settings_str'     => TranslationString::getGlobalSettingsI18n(),
             'ace_path_url'          => fluentformMix('libs/ace'),
         ];

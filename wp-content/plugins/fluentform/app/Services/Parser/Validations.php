@@ -2,7 +2,6 @@
 
 namespace FluentForm\App\Services\Parser;
 
-use FluentForm\App\Services\ConditionAssesor;
 use FluentForm\Framework\Helpers\ArrayHelper as Arr;
 
 class Validations
@@ -56,6 +55,19 @@ class Validations
     protected $messages = [];
 
     /**
+     * Rules the validator has no method for.
+     *
+     * Selection limits are counted against the field's own options in
+     * Helper::validateSelectionLimits(), which runs later in the submission with
+     * the raw field settings in hand — the only place the configured (or global)
+     * message for the breach can be resolved. Emitting them here too would lean
+     * on the validator silently ignoring rules it does not recognise.
+     *
+     * @var array
+     */
+    protected $rulesHandledElsewhere = ['min_selection', 'max_selection'];
+
+    /**
      * The validation extractor constructor.
      *
      * @param array $formFields
@@ -87,6 +99,10 @@ class Validations
             $this->setRepeater($fieldName, $field);
 
             foreach ($rules as $ruleName => $rule) {
+                if (in_array($ruleName, $this->rulesHandledElsewhere, true)) {
+                    continue;
+                }
+
                 if ($this->shouldNotSkipThisRule($rule, $fieldValue, $hasRequiredRule)) {
                     $this->prepareValidations($fieldName, $ruleName, $rule);
                 }

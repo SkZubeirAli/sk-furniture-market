@@ -220,6 +220,8 @@ class ContactForm7Migrator extends BaseMigrator
         $fileTypeOptions = [];
 
         foreach ($formattedTypes as $format) {
+            // $allFileTypes is lowercase; CF7's filetypes attribute is author-entered.
+            $format = strtolower($format);
             foreach ($allFileTypes as $fileTypes) {
                 if (!empty($format) && strpos($fileTypes, $format) !== false) {
                     if (strpos($fileTypes, '/*|') !== false) {

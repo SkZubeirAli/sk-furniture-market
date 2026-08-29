@@ -18,6 +18,20 @@ use FluentForm\Framework\Validator\ValidationException;
 
 class FormValidationService
 {
+    /** Skip a provider that just failed rather than re-timing-out per submission. */
+    const GEO_BACKOFF_MINUTES = 15;
+
+    const GEO_TIMEOUT = 3;
+
+    /** Resolved countries are reused so a flood cannot burn provider quota. */
+    const GEO_CACHE_MINUTES = 10;
+
+    /** Entries per cache shard; 256 shards keeps rows small and uncontended. */
+    const GEO_CACHE_SHARD_MAX = 25;
+
+    /** Consecutive inconclusive answers before a provider is treated as down. */
+    const GEO_PROVIDER_STRIKES = 3;
+
     protected $app;
     protected $form;
     protected $formData;
@@ -131,6 +145,18 @@ class FormValidationService
             $inputName = Arr::get($field, 'raw.attributes.name');
             $field['name'] = $inputName;
             $error = $this->validateInput($field, $formData, $this->form);
+
+            // Deliberately here and not inside Helper::validateInput(): that
+            // answers "is this value legal for this field" and is reused by entry
+            // import, which would silently drop a historical row that breaches a
+            // limit added later. How many options may be picked is a rule about
+            // this submission, so it is enforced on this path only.
+            if (!$error) {
+                $error = Helper::validateSelectionLimits(
+                    Arr::get($field, 'raw', $field),
+                    Arr::get($formData, $inputName)
+                );
+            }
             $error = apply_filters_deprecated('fluentform_validate_input_item_' . $field['element'], [
                     $error,
                     $field,
@@ -370,11 +396,12 @@ class FormValidationService
 
         $isCountryRestrictionEnabled = Arr::isTrue($settings, 'fields.country.status');
         if ($isCountryRestrictionEnabled) {
-            if ($ipInfo = $this->getIpInfo($ip)) {
-                $country = Arr::get($ipInfo, 'country');
-            } else {
-                $country = $this->getIpBasedOnCountry($ip);
+            $country = $this->resolveCountryFromIp($ip);
+
+            if (!$country) {
+                $this->handleUnresolvedCountry($settings);
             }
+
             $this->checkCountryRestriction($settings, $country);
         }
 
@@ -702,61 +729,345 @@ class FormValidationService
     }
 
     /**
-     * Get IP info from ipinfo.io
+     * Decide what an unresolved country means for this rule.
+     *
+     * A block list stays permissive: the providers are third party, and their
+     * outage must not stop a site taking submissions. An allow list cannot be
+     * honoured at all without a country - letting it through would turn "only
+     * these countries" into "anyone" - so it fails closed. Either case can be
+     * inverted with the filter.
      *
      * @throws ValidationException
      */
-    private function getIpInfo($ip) {
-        $token = Helper::getIpinfo();
-        
-        if (!$token) {
-            return false;
+    private function handleUnresolvedCountry($settings)
+    {
+        // A rule with no countries chosen cannot express an intent, so it must
+        // not acquire a brand new way to reject people.
+        if (!array_filter((array) Arr::get($settings, 'fields.country.values', []))) {
+            return;
         }
-        
-        $url = 'https://ipinfo.io/' . $ip . '?token=' . $token;
-        $data = wp_remote_get($url);
-        $code = wp_remote_retrieve_response_code($data);
-        $body = wp_remote_retrieve_body($data);
-        $result = \json_decode($body, true);
-        if ($code === 200) {
-            return $result;
-        } else {
-            $message = __('Sorry! There is an error in your geocode IP address settings. Please check the token', 'fluentform');
-            self::throwValidationException($message);
+
+        // Derived negatively on purpose: checkCountryRestriction() treats
+        // anything that is not fail_on_condition_met as an allow list, and a
+        // form saved before validation_type existed has the key absent. Testing
+        // for the allow-list string instead would leave those forms enforced as
+        // an allow list while being failed open as a block list.
+        $isAllowList = 'fail_on_condition_met' !== Arr::get($settings, 'fields.country.validation_type');
+
+        $failClosed = apply_filters(
+            'fluentform/country_restriction_fail_closed',
+            $isAllowList,
+            $this->form,
+            $settings
+        );
+
+        if (!$failClosed) {
+            return;
         }
+
+        $default = __('Sorry! We could not verify your location, so this form cannot be submitted right now.', 'fluentform');
+
+        self::throwValidationException(
+            apply_filters('fluentform/country_unresolved_message', $default, $this->form)
+        );
     }
 
     /**
-     * Get IP and Country from geoplugin
+     * Resolve the visitor country, trying each provider in turn.
      *
-     * @throws ValidationException
+     * A geo provider can only answer for a routable address; for a private or
+     * reserved one ipinfo.io replies {"bogon":true} with no country and apip.cc
+     * replies status:fail. resolveIp() yields such an address for CLI and cron
+     * submissions, for an unparseable REMOTE_ADDR, and on a site whose reverse
+     * proxy sits on a private network. Skipping the lookups there reaches the
+     * same answer without two blocking HTTP timeouts.
+     *
+     * @return string|null
      */
-    private function getIpBasedOnCountry($ip) {
-        $request = wp_remote_get("https://apip.cc/api-json/{$ip}");
+    private function resolveCountryFromIp($ip)
+    {
+        if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            return Helper::getCountryCodeFromHeaders(true);
+        }
+
+        $cached = self::cachedCountry($ip);
+
+        if (false !== $cached) {
+            return 'none' === $cached ? null : $cached;
+        }
+
+        $country = null;
+
+        if ($ipInfo = $this->getIpInfo($ip)) {
+            $country = self::normalizeCountry(Arr::get($ipInfo, 'country'));
+        }
+
+        $answered = null !== $country;
+
+        if (!$country) {
+            if (get_transient('fluentform_geo_apip_backoff')) {
+                // Nothing was asked, so there is no verdict to remember. Caching
+                // here would outlive the back-off and pin the miss indefinitely.
+                return Helper::getCountryCodeFromHeaders(true);
+            }
+
+            $country = $this->getIpBasedOnCountry($ip, $answered);
+        }
+
+        if ($answered) {
+            self::cacheCountry($ip, $country);
+        }
+
+        return $country;
+    }
+
+    /**
+     * Providers are third parties; only a real ISO 3166-1 alpha-2 code may
+     * reach enforcement or the cache.
+     *
+     * @param mixed $country
+     * @return string|null
+     */
+    private static function normalizeCountry($country)
+    {
+        if (!is_string($country)) {
+            return null;
+        }
+
+        $country = strtoupper(trim($country));
+
+        return preg_match('/^[A-Z]{2}$/', $country) ? $country : null;
+    }
+
+    /**
+     * @param string $ip
+     * @return string|false 'none' for a cached miss, false when not cached
+     */
+    private static function cachedCountry($ip)
+    {
+        $shard = get_transient(self::cacheShardKey($ip));
+
+        if (!is_array($shard)) {
+            return false;
+        }
+
+        $key = md5($ip);
+
+        if (!isset($shard[$key]['c'], $shard[$key]['t'])) {
+            return false;
+        }
+
+        // Each entry carries its own stamp because the row's TTL is pushed
+        // forward by every write, so on a busy form the row never expires.
+        if ((time() - (int) $shard[$key]['t']) > self::GEO_CACHE_MINUTES * MINUTE_IN_SECONDS) {
+            return false;
+        }
+
+        return $shard[$key]['c'];
+    }
+
+    /**
+     * Sharded so the rows stay small and concurrent submissions rarely collide
+     * on the same read-modify-write, and bounded so a flood of unique addresses
+     * cannot grow wp_options without limit. Addresses are hashed: this store is
+     * not submission data and must not become an IP log.
+     *
+     * @param string $ip
+     * @param string|null $country
+     * @return void
+     */
+    private static function cacheCountry($ip, $country)
+    {
+        $shardKey = self::cacheShardKey($ip);
+        $shard = get_transient($shardKey);
+        $shard = is_array($shard) ? $shard : [];
+
+        $key = md5($ip);
+
+        unset($shard[$key]);
+        $shard[$key] = ['c' => $country ?: 'none', 't' => time()];
+
+        if (count($shard) > self::GEO_CACHE_SHARD_MAX) {
+            $shard = array_slice($shard, -self::GEO_CACHE_SHARD_MAX, null, true);
+        }
+
+        set_transient($shardKey, $shard, self::GEO_CACHE_MINUTES * MINUTE_IN_SECONDS);
+    }
+
+    /**
+     * @param string $ip
+     * @return string
+     */
+    private static function cacheShardKey($ip)
+    {
+        return 'fluentform_geo_country_' . substr(md5($ip), 0, 2);
+    }
+
+    /**
+     * Count an inconclusive answer, and park the provider once they repeat.
+     *
+     * A single timeout or unusable body says nothing about the provider's
+     * health for other visitors, so it must not disable enforcement for them;
+     * a run of them does.
+     *
+     * @param string $provider
+     * @return void
+     */
+    private static function recordProviderStrike($provider)
+    {
+        $key = 'fluentform_geo_' . $provider . '_strikes';
+        $strikes = (int) get_transient($key) + 1;
+
+        if ($strikes >= self::GEO_PROVIDER_STRIKES) {
+            delete_transient($key);
+            self::backOffProvider($provider);
+
+            return;
+        }
+
+        set_transient($key, $strikes, self::GEO_BACKOFF_MINUTES * MINUTE_IN_SECONDS);
+    }
+
+    /**
+     * Whether a status code says the provider is unusable for everyone, rather
+     * than just for the address being looked up.
+     *
+     * Parking a provider is global, so only a provider-wide fault may do it:
+     * rejected credentials, exhausted quota, or the provider being down. A
+     * per-address oddity must never disable enforcement for other visitors.
+     *
+     * @param int|string $code
+     * @return bool
+     */
+    private static function isProviderWideFailure($code)
+    {
+        $code = (int) $code;
+
+        return in_array($code, [401, 403, 429], true) || $code >= 500;
+    }
+
+    /**
+     * Park a provider that just failed, so it is not re-asked per submission.
+     *
+     * @param string $provider
+     * @return void
+     */
+    private static function backOffProvider($provider)
+    {
+        set_transient(
+            'fluentform_geo_' . $provider . '_backoff',
+            1,
+            self::GEO_BACKOFF_MINUTES * MINUTE_IN_SECONDS
+        );
+    }
+
+    /**
+     * Get IP info from ipinfo.io
+     *
+     * Returns false on any failure - rejected token, outage, malformed body -
+     * so the caller falls through to apip.cc and then to the request headers.
+     * A misconfigured token is an admin error; it must not cancel every
+     * visitor's submission.
+     *
+     * @return array|false
+     */
+    private function getIpInfo($ip) {
+        $token = Helper::getIpinfo();
+
+        if (!$token || get_transient('fluentform_geo_ipinfo_backoff')) {
+            return false;
+        }
+
+        // Bearer, not a query parameter: a credential in a URL is logged by
+        // every outbound proxy the request passes through.
+        $data = wp_remote_get('https://ipinfo.io/' . rawurlencode($ip), [
+            'timeout' => self::GEO_TIMEOUT,
+            'headers' => ['Authorization' => 'Bearer ' . $token],
+        ]);
+
+        if (is_wp_error($data)) {
+            self::recordProviderStrike('ipinfo');
+
+            return false;
+        }
+
+        $code = wp_remote_retrieve_response_code($data);
+
+        if (200 !== $code) {
+            if (self::isProviderWideFailure($code)) {
+                self::backOffProvider('ipinfo');
+            }
+
+            return false;
+        }
+
+        $result = \json_decode(wp_remote_retrieve_body($data), true);
+
+        // Same reasoning as apip.cc below: a body we cannot use is about this
+        // address, not the provider's health, so it must not count globally.
+        if (!is_array($result)) {
+            return false;
+        }
+
+        delete_transient('fluentform_geo_ipinfo_strikes');
+
+        return $result;
+    }
+
+    /**
+     * Get IP and Country from apip.cc, falling back to the request headers.
+     *
+     * @return string|null
+     */
+    private function getIpBasedOnCountry($ip, &$answered = false) {
+        if (get_transient('fluentform_geo_apip_backoff')) {
+            return Helper::getCountryCodeFromHeaders(true);
+        }
+
+        $request = wp_remote_get(
+            'https://apip.cc/api-json/' . rawurlencode($ip),
+            ['timeout' => self::GEO_TIMEOUT]
+        );
+
+        if (is_wp_error($request)) {
+            self::recordProviderStrike('apip');
+
+            return Helper::getCountryCodeFromHeaders(true);
+        }
+
         $code = wp_remote_retrieve_response_code($request);
 
-        $message = __('Sorry! There is an error occurred in getting Country using ip-api.com. Please check form settings and try again.', 'fluentform');
-
-        if ($code === 200) {
-            $body = wp_remote_retrieve_body($request);
-            $body = \json_decode($body, true);
-            $status = Arr::get($body, 'status', false) === 'success';
-            
-            if (!$status) {
-                return Helper::getCountryCodeFromHeaders();
+        if (200 !== $code) {
+            if (self::isProviderWideFailure($code)) {
+                self::backOffProvider('apip');
             }
 
-            if ($country = Arr::get($body,'CountryCode')) {
-                return $country;
-            } else {
-                self::throwValidationException($message);
-            }
-        } else {
-            if ($country = Helper::getCountryCodeFromHeaders()) {
-                return $country;
-            }
-            self::throwValidationException($message);
+            // FINDING-26: the provider gave us nothing. Return the CDN header only
+            // if the site opted into trusting it for enforcement; otherwise null,
+            // which hands the decision to handleUnresolvedCountry().
+            return Helper::getCountryCodeFromHeaders(true);
         }
+
+        // The provider answered about this address, so the result is a verdict
+        // worth remembering even when it is "no country".
+        $answered = true;
+
+        $body = \json_decode(wp_remote_retrieve_body($request), true);
+        $country = self::normalizeCountry(Arr::get((array) $body, 'CountryCode'));
+
+        if ('success' === Arr::get((array) $body, 'status') && $country) {
+            delete_transient('fluentform_geo_apip_strikes');
+
+            return $country;
+        }
+
+        // No strike here. A 200 that carries no usable country is an answer about
+        // this address, and which address is looked up is chosen by whoever
+        // submits - letting it count towards a global park would hand a remote
+        // submitter a way to disable the provider for everyone. The miss is
+        // cached against this address instead, which is what stops it being
+        // re-asked on the next submission.
+        return Helper::getCountryCodeFromHeaders(true);
     }
 
     /**
@@ -765,21 +1076,90 @@ class FormValidationService
      * @return bool
      */
     public static function containsRestrictedKeywords($value, $providedKeywords) {
-        preg_match_all('/\b[\p{L}\d\s]+\b/u', $value, $matches);
-        $words = $matches[0] ?? [];
+        $value = (string) $value;
+        if ('' === $value) {
+            return false;
+        }
 
-        foreach ($providedKeywords as $keyword) {
-            foreach ($words as $word) {
-                if (
-                    strtoupper($word) === strtoupper($keyword) ||
-                    preg_match('/\b' . strtoupper($keyword) . '\b/', strtoupper($word))
-                ) {
-                    return true;
-                }
+        foreach ((array) $providedKeywords as $keyword) {
+            $keyword = (string) $keyword;
+            if ('' === $keyword || self::isUnusableKeyword($keyword)) {
+                continue;
+            }
+
+            if (preg_match(self::keywordPattern($keyword), $value)) {
+                return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * A lone punctuation mark or invisible format character is never a usable
+     * restriction keyword.
+     *
+     * The previous implementation stripped these before matching, so an entry
+     * like "." or a stray zero-width space sat in a site's keyword list doing
+     * nothing at all. Now that keywords match on the raw value, such an entry
+     * would hit almost every submission and silently reject the whole form —
+     * and an invisible one (ZWSP, soft hyphen, BOM, picked up by pasting a list
+     * from a document) could never be spotted in the settings field. Skipping
+     * them protects sites carrying a stray entry without costing anything that
+     * ever worked: every character in these two categories was already inert.
+     *
+     * Deliberately NOT skipped: spaces (\p{Zs}) and tabs/newlines (\p{Cc}) did
+     * match under the old tokenizer, so they must keep matching. Currency, math,
+     * arrows, emoji and any multi-character keyword ("$$$", "http://") are
+     * unaffected — only single characters are considered here.
+     *
+     * @param string $keyword
+     * @return bool
+     */
+    private static function isUnusableKeyword($keyword)
+    {
+        return 1 === mb_strlen($keyword, 'UTF-8') && preg_match('/^[\p{P}\p{Cf}]$/u', $keyword);
+    }
+
+    /**
+     * Build the whole-word matcher for a single restricted keyword.
+     *
+     * Matching stays whole-word (the keyword glued inside a longer word is not a
+     * match), but "word" has to be defined per script rather than by PCRE's \b:
+     *
+     * - \b/\w never treat combining marks as word characters, not even under
+     *   (*UCP). Indic scripts write vowels and the virama as marks, so "বাংলা"
+     *   (ব + া + ং + ল + া) has no trailing boundary and could never match.
+     *   \p{M} is therefore part of the word class.
+     * - Han, Kana, Thai, Lao, Khmer, Myanmar and Tibetan don't separate words at
+     *   all, so no boundary can ever exist around a keyword. Whole-word is
+     *   meaningless there and the keyword is matched as a substring instead.
+     *
+     * Everything else — underscore, zero-width joiners, non-ASCII digits — stays
+     * a separator, matching the class the previous implementation tokenised on.
+     * That keeps this a strict superset of the old matcher: a keyword that used
+     * to be blocked is still blocked, and padding a keyword with an invisible
+     * ZWNJ can't slip it past the filter.
+     *
+     * @param string $keyword
+     * @return string
+     */
+    private static function keywordPattern($keyword)
+    {
+        $quoted = preg_quote($keyword, '/');
+
+        if (preg_match('/[\p{Han}\p{Hiragana}\p{Katakana}\p{Thai}\p{Lao}\p{Khmer}\p{Myanmar}\p{Tibetan}]/u', $keyword)) {
+            return '/' . $quoted . '/ui';
+        }
+
+        $wordChar = '\p{L}\p{M}\d';
+
+        // Only guard an edge that is itself a word character, so keywords
+        // wrapped in punctuation (e.g. "$$$" or "buy!") stay matchable.
+        $lead  = preg_match('/^[' . $wordChar . ']/u', $keyword) ? '(?<![' . $wordChar . '])' : '';
+        $trail = preg_match('/[' . $wordChar . ']$/u', $keyword) ? '(?![' . $wordChar . '])' : '';
+
+        return '/' . $lead . $quoted . $trail . '/ui';
     }
 
 

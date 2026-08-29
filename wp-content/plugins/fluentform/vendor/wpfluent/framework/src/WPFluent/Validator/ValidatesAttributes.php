@@ -695,8 +695,17 @@ trait ValidatesAttributes
         /**
          * @var $value \FluentForm\Framework\Validator\Contracts\File
          */
-        return $value->getPath() != '' && in_array(
-            $value->guessExtension(), $parameters
+        // wp_check_filetype() matches case-insensitively but returns the extension
+        // in the filename's own case ("clip.MOV" => "MOV"). Casts guard the false
+        // (no match) and [null] (bare "mimes:" via str_getcsv) cases.
+        $extension = strtolower((string) $value->guessExtension());
+
+        $allowed = array_map(function ($parameter) {
+            return strtolower((string) $parameter);
+        }, $parameters);
+
+        return $value->getPath() != '' && '' !== $extension && in_array(
+            $extension, $allowed, true
         );
     }
 

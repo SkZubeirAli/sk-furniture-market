@@ -190,6 +190,60 @@
             "install-path": "../donatj/phpuseragentparser"
         },
         {
+            "name": "groupone/wap-client",
+            "version": "2.2.2",
+            "version_normalized": "2.2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/One-com/wap-client.git",
+                "reference": "c6e817e206fbaf7224f0150d52969a1bd3cd22f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/One-com/wap-client/zipball/c6e817e206fbaf7224f0150d52969a1bd3cd22f5",
+                "reference": "c6e817e206fbaf7224f0150d52969a1bd3cd22f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "time": "2026-08-27T08:27:41+00:00",
+            "type": "wordpress-plugin",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "wap-client.php"
+                ],
+                "psr-4": {
+                    "GroupOne\\WapClient\\": "includes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "group.one",
+                    "homepage": "https://www.group.one"
+                }
+            ],
+            "description": "WordPress AI Platform (WAP) client library — drop-in Composer package for integrating AI chat into any WordPress plugin.",
+            "homepage": "https://github.com/One-com/wap-client",
+            "keywords": [
+                "ai",
+                "chat",
+                "group-one",
+                "wap",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/One-com/wap-client/issues",
+                "source": "https://github.com/One-com/wap-client"
+            },
+            "install-path": "../groupone/wap-client"
+        },
+        {
             "name": "woocommerce/action-scheduler",
             "version": "3.9.3",
             "version_normalized": "3.9.3.0",
@@ -314,17 +368,17 @@
         },
         {
             "name": "wp-media/wp-mixpanel",
-            "version": "v1.4.1",
-            "version_normalized": "1.4.1.0",
+            "version": "v1.4.4",
+            "version_normalized": "1.4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-media/wp-mixpanel.git",
-                "reference": "09dea8a51f97e8047defc9f8a995b87dec76baad"
+                "reference": "424106dea366f96cb21d9ccb537e388ec1187a57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-media/wp-mixpanel/zipball/09dea8a51f97e8047defc9f8a995b87dec76baad",
-                "reference": "09dea8a51f97e8047defc9f8a995b87dec76baad",
+                "url": "https://api.github.com/repos/wp-media/wp-mixpanel/zipball/424106dea366f96cb21d9ccb537e388ec1187a57",
+                "reference": "424106dea366f96cb21d9ccb537e388ec1187a57",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +395,7 @@
                 "wp-coding-standards/wpcs": "^3",
                 "wp-media/phpunit": "^3"
             },
-            "time": "2026-05-29T18:02:43+00:00",
+            "time": "2026-08-05T15:47:15+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -366,7 +420,7 @@
             "description": "WordPress Mixpanel Integration",
             "support": {
                 "issues": "https://github.com/wp-media/wp-mixpanel/issues",
-                "source": "https://github.com/wp-media/wp-mixpanel/tree/v1.4.1"
+                "source": "https://github.com/wp-media/wp-mixpanel/tree/v1.4.4"
             },
             "install-path": "../wp-media/wp-mixpanel"
         }

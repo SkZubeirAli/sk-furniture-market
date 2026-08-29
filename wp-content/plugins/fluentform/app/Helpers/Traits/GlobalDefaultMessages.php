@@ -76,6 +76,18 @@ trait GlobalDefaultMessages
                 'value'     => __('Validation fails for limited digits', 'fluentform'),
                 'help_text' => __("This message will be shown if validation fails for digits value.", 'fluentform'),
             ],
+            'min_selection'       => [
+                'label'     => __('Minimum Selection', 'fluentform'),
+                'value'     => __('Please select at least the minimum number of options', 'fluentform'),
+                'help_text' => __("This message will be shown if fewer than the minimum number of options are selected.",
+                    'fluentform'),
+            ],
+            'max_selection'       => [
+                'label'     => __('Maximum Selection', 'fluentform'),
+                'value'     => __('You have selected more options than allowed', 'fluentform'),
+                'help_text' => __("This message will be shown if more than the maximum number of options are selected.",
+                    'fluentform'),
+            ],
             'url'                  => [
                 'label'     => __('Url', 'fluentform'),
                 'value'     => __('This field must contain a valid url', 'fluentform'),

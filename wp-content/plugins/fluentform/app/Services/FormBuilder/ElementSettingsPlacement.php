@@ -160,7 +160,8 @@ return [
             'advanced_options',
             'randomize_options',
             'enable_select_2',
-            'max_selection',
+            // max_selection is a validation rule now — listing it here too would
+            // draw the control twice.
             'validation_rules',
         ],
         'advanced' => [

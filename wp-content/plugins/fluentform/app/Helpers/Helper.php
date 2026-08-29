@@ -45,15 +45,44 @@ class Helper
             }
         } elseif (is_array($input)) {
             foreach ($input as $key => &$value) {
-                $attribute = $attribute ? $attribute . '[' . $key . ']' : $key;
+                // Local var: mutating $attribute here would collapse every sibling
+                // after the first onto a bare key, resolving nested inputs to the wrong element.
+                $childAttribute = $attribute ? $attribute . '[' . $key . ']' : $key;
 
-                $value = static::sanitizer($value, $attribute, $fields);
-
-                $attribute = null;
+                $value = static::sanitizer($value, $childAttribute, $fields);
             }
+            unset($value);
         }
 
         return $input;
+    }
+
+    /**
+     * Flatten a request value into a plain, printable string.
+     *
+     * Request values are string or array. Walks nested arrays so a crafted
+     * param[][] cannot raise an "Array to string conversion" notice, and the
+     * caller can escape the result in one pass instead of branching on shape.
+     *
+     * @param mixed $value
+     *
+     * @return string
+     */
+    public static function flattenRequestValue($value)
+    {
+        if (!is_array($value)) {
+            return is_scalar($value) ? (string) $value : '';
+        }
+
+        $flat = [];
+
+        array_walk_recursive($value, function ($item) use (&$flat) {
+            if (is_scalar($item)) {
+                $flat[] = (string) $item;
+            }
+        });
+
+        return implode(', ', $flat);
     }
 
     public static function isOptionGroup($option)
@@ -61,6 +90,52 @@ class Helper
         return is_array($option)
             && ArrayHelper::get($option, 'type') === 'group'
             && is_array(ArrayHelper::get($option, 'options'));
+    }
+
+    /*
+     * Int or nothing. Persisting free text here would hand the one user class
+     * this sanitizer exists to contain an arbitrary string in form_fields, for a
+     * value with no PHP consumer at all — it only keys the editor's Vue list.
+     * A non-numeric id collapses to 0, and ensureUniqueIds() regenerates it on
+     * load. Numerics must stay numeric for the same reason: as the string "0" it
+     * would be JS-truthy, and ensureUniqueIds() only regenerates ids that are
+     * falsy or already seen.
+     */
+    public static function sanitizeOptionId($value)
+    {
+        return is_numeric($value) ? (int) $value : 0;
+    }
+
+    /*
+     * sanitize_title, not sanitize_key: Pro writes inventory slugs with
+     * sanitize_title (InventoryController), which percent-encodes non-ASCII.
+     * sanitize_key strips '%', producing a slug that no longer exists — and a
+     * truthy-but-missing slug resolves to quantity 0 in InventoryValidation, so
+     * the option fails closed as permanently stocked out. sanitize_title is
+     * idempotent over its own output and still neutralises markup.
+     *
+     * The is_scalar guard is ours: unlike sanitize_key, sanitize_title has no
+     * guard of its own and raises a TypeError on PHP 8 for an array value.
+     */
+    public static function sanitizeOptionSlug($value)
+    {
+        return is_scalar($value) ? sanitize_title($value) : '';
+    }
+
+    /*
+     * Keys the whitelist above drops but the editor and Pro Inventory need back.
+     * They are sanitized rather than passed through, since preserving unknown
+     * keys verbatim would defeat the whitelist for exactly the users this path
+     * protects. Absent keys stay absent: an invented `quantity => 0` reads as
+     * "stock out" to InventoryValidation.
+     */
+    protected static function optionPassthroughMap()
+    {
+        return [
+            'id'               => [self::class, 'sanitizeOptionId'],
+            'quantity'         => 'intval',
+            'global_inventory' => [self::class, 'sanitizeOptionSlug'],
+        ];
     }
 
     public static function sanitizeAdvancedOptions($options, $depth = 0)
@@ -87,21 +162,54 @@ class Helper
                     continue;
                 }
 
-                $sanitized[] = [
+                $groupLabel = ArrayHelper::get($option, 'label', '');
+
+                $group = [
                     'type'    => 'group',
-                    'label'   => wp_kses_post(ArrayHelper::get($option, 'label', '')),
+                    'label'   => wp_kses_post(is_scalar($groupLabel) ? $groupLabel : ''),
                     'options' => $groupOptions,
                 ];
+
+                // Groups are keyed on group.id in the editor exactly like leaf
+                // options, and is_open is user-visible collapse state.
+                if (array_key_exists('id', $option)) {
+                    $group['id'] = self::sanitizeOptionId($option['id']);
+                }
+                if (array_key_exists('is_open', $option)) {
+                    $group['is_open'] = (bool) $option['is_open'];
+                }
+
+                $sanitized[] = $group;
                 continue;
             }
 
-            $sanitized[] = [
-                'label'      => wp_kses_post(ArrayHelper::get($option, 'label', '')),
-                'value'      => sanitize_text_field(ArrayHelper::get($option, 'value', '')),
-                'image'      => sanitize_url(ArrayHelper::get($option, 'image', '')),
-                'calc_value' => sanitize_text_field(ArrayHelper::get($option, 'calc_value', '')),
+            /*
+             * Non-scalars are flattened to '' before the WP sanitisers see them:
+             * wp_kses_post() and sanitize_url() have no guard of their own and
+             * raise a TypeError on PHP 8 for an array, which would be an uncaught
+             * 500 on save for exactly the users this whitelist protects.
+             */
+            $scalar = function ($key) use ($option) {
+                $value = ArrayHelper::get($option, $key, '');
+
+                return is_scalar($value) ? $value : '';
+            };
+
+            $clean = [
+                'label'      => wp_kses_post($scalar('label')),
+                'value'      => sanitize_text_field($scalar('value')),
+                'image'      => sanitize_url($scalar('image')),
+                'calc_value' => sanitize_text_field($scalar('calc_value')),
                 'disabled'   => ArrayHelper::isTrue($option, 'disabled'),
             ];
+
+            foreach (self::optionPassthroughMap() as $key => $sanitizer) {
+                if (array_key_exists($key, $option)) {
+                    $clean[$key] = call_user_func($sanitizer, $option[$key]);
+                }
+            }
+
+            $sanitized[] = $clean;
         }
 
         return $sanitized;
@@ -215,7 +323,9 @@ class Helper
 
         $statuses = apply_filters('fluentform/entry_statuses_core', $statuses, $form_id);
 
-        $statuses['trashed'] = 'Trashed';
+        $statuses['spam'] = __('Spam', 'fluentform');
+
+        $statuses['trashed'] = __('Trashed', 'fluentform');
 
         return $statuses;
     }
@@ -958,7 +1068,7 @@ class Helper
 
     public static function sanitizeForCSV($content)
     {
-        $formulas = ['=', '-', '+', '@', "\t", "\r"];
+        $formulas = ['=', '-', '+', '@', "\t", "\r", "\n"];
 
         $formulas = apply_filters('fluentform/csv_sanitize_formulas', $formulas);
 
@@ -1320,7 +1430,7 @@ class Helper
                     $fieldData = ArrayHelper::get($field, 'raw');
                     $data = (new SelectCountry())->loadCountries($fieldData);
                     $validCountries = ArrayHelper::get($fieldData, 'settings.country_list.priority_based', []);
-                    $validCountries = array_merge($validCountries, array_keys(ArrayHelper::get($data, 'options')));
+                    $validCountries = array_merge($validCountries, array_keys((array) ArrayHelper::get($data, 'options', [])));
                     $isValid = in_array($inputValue, $validCountries);
                     break;
                 case 'repeater_field':
@@ -1365,6 +1475,109 @@ class Helper
             }
         }
         return $error;
+    }
+
+    /**
+     * Enforce how many options a field allows the user to pick.
+     *
+     * A field with no selections is left alone, so a floor never turns an
+     * optional field into a required one — that is what `required` is for.
+     *
+     * @param array $rawField
+     * @param mixed $inputValue
+     * @return array rule name => message, empty when within the limits
+     */
+    public static function validateSelectionLimits($rawField, $inputValue)
+    {
+        // Distinct choices, not array entries. The same option repeated is one
+        // answer: counting entries lets a crafted post satisfy a floor of two by
+        // sending one option twice, and lets padding manufacture a ceiling breach
+        // the visitor never made. No UI can produce a duplicate, so this only
+        // ever arrives crafted. A filled-in "Other" is a single element and still
+        // counts once.
+        $selected = is_array($inputValue) ? count(array_unique(array_filter($inputValue, function ($value) {
+            return '' !== $value && null !== $value;
+        }))) : (('' === $inputValue || null === $inputValue) ? 0 : 1);
+
+        if (!$selected) {
+            return [];
+        }
+
+        $rules = ArrayHelper::get($rawField, 'settings.validation_rules', []);
+
+        $limits = [
+            'min_selection' => ArrayHelper::get($rules, 'min_selection.value'),
+            'max_selection' => static::resolveMaxSelection($rawField),
+        ];
+
+        $errors = [];
+
+        foreach ($limits as $rule => $limit) {
+            // '' is how "no limit" ships, so it must never mean a limit of zero.
+            if ('' === $limit || null === $limit || !is_numeric($limit)) {
+                continue;
+            }
+
+            $limit = (int) $limit;
+
+            if ($limit < 1) {
+                continue;
+            }
+
+            $breached = 'min_selection' === $rule ? $selected < $limit : $selected > $limit;
+
+            if ($breached) {
+                $errors[$rule] = static::getSelectionLimitMessage($rules, $rule);
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * The effective ceiling for a field, preferring the rule over the legacy
+     * `settings.max_selection`.
+     *
+     * The rule takes ownership as soon as its KEY exists, empty value included.
+     * Falling back on an empty value instead would make the limit unremovable:
+     * nothing writes to the legacy setting any more, so clearing the box in the
+     * editor would silently drop back to whatever was frozen there.
+     *
+     * @param array $field
+     * @return mixed
+     */
+    public static function resolveMaxSelection($field)
+    {
+        $rules = ArrayHelper::get($field, 'settings.validation_rules', []);
+
+        if (is_array($rules) && array_key_exists('max_selection', $rules)) {
+            return ArrayHelper::get($rules, 'max_selection.value');
+        }
+
+        return ArrayHelper::get($field, 'settings.max_selection');
+    }
+
+    /**
+     * The field's own wording for a breached limit, or the site-wide default.
+     *
+     * @param array  $rules
+     * @param string $rule
+     * @return string
+     */
+    public static function getSelectionLimitMessage($rules, $rule)
+    {
+        // `global_message` is a copy taken when the field was last saved, so it
+        // goes stale the moment Global Settings change — resolve the live value
+        // the way every other rule does.
+        $message = ArrayHelper::isTrue($rules, $rule . '.global')
+            ? static::getGlobalDefaultMessage($rule)
+            : ArrayHelper::get($rules, $rule . '.message');
+
+        if (!$message) {
+            $message = static::getGlobalDefaultMessage($rule);
+        }
+
+        return apply_filters('fluentform/selection_limit_message', $message, $rule, $rules);
     }
 
     /**
@@ -1533,6 +1746,23 @@ class Helper
         return defined('FLUENTFORMPRO');
     }
 
+    public static function utmUrl($baseUrl, $utmContent = '', $utmCampaign = 'upgrade_pro')
+    {
+        $params = [
+            'utm_source'   => 'fluent-forms',
+            'utm_medium'   => self::hasPro() ? 'pro_plugin' : 'free_plugin',
+            'utm_campaign' => $utmCampaign,
+            'utm_term'     => FLUENTFORM_VERSION,
+            'theme_style'  => fluentform_get_active_theme_slug(),
+        ];
+
+        if ($utmContent) {
+            $params['utm_content'] = $utmContent;
+        }
+
+        return add_query_arg($params, $baseUrl);
+    }
+
     public static function getLandingPageEnabledForms()
     {
         if (class_exists(\FluentFormPro\classes\SharePage\SharePage::class)) {
@@ -1562,8 +1792,15 @@ class Helper
         return home_url($args);
     }
 
-    public static function getCountryCodeFromHeaders()
+    public static function getCountryCodeFromHeaders($forRestriction = false)
     {
+        // SECURITY (FINDING-26): CDN country headers are client-spoofable. Trust them for analytics
+        // storage (spoof is cosmetic) but not for restriction enforcement (spoof = bypass). Filterable.
+        $trustHeaders = apply_filters('fluentform/trust_geo_headers', !$forRestriction);
+        if (!$trustHeaders) {
+            return null;
+        }
+
         $headers = [
             // Cloudflare (most common)
             'HTTP_CF_IPCOUNTRY',

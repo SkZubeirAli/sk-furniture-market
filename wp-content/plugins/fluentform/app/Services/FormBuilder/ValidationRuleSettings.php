@@ -159,6 +159,18 @@ $fluentformValidationRuleSettings = [
         'label'     => __('Max Value', 'fluentform'),
         'help_text' => __('Maximum value for the input field.', 'fluentform'),
     ],
+    'max_selection' => [
+        'template'  => 'inputText',
+        'type'      => 'number',
+        'label'     => __('Max Selection', 'fluentform'),
+        'help_text' => __('The most options a user may select. Leave empty for no maximum.', 'fluentform'),
+    ],
+    'min_selection' => [
+        'template'  => 'inputText',
+        'type'      => 'number',
+        'label'     => __('Min Selection', 'fluentform'),
+        'help_text' => __('The fewest options a user may select. Leave empty for no minimum. A user who selects nothing is treated as having skipped the field, so this does not make an optional field required.', 'fluentform'),
+    ],
     'max_file_size' => [
         'template'  => 'maxFileSize',
         'label'     => __('Max File Size', 'fluentform'),
