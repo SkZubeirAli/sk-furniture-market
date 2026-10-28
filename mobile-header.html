@@ -1,0 +1,837 @@
+            <!-- =========================================
+      SK FURNITURE MARKET
+      TABLET / MOBILE HEADER
+      1024px AND BELOW
+  ========================================= -->
+
+  <style>
+  /* =========================================
+        MOBILE / TABLET HEADER
+      ========================================= */
+  .sk-mobile-drawer-header img {
+      width: 60%;
+  }
+
+  .sk-mobile-header {
+    display: none;
+    width: 100%;
+    position: relative;
+    z-index: 99999;
+
+    font-family: Arial, sans-serif;
+  }
+
+  .sk-mobile-header * {
+    box-sizing: border-box;
+  }
+
+  /* SHOW ONLY TABLET + MOBILE */
+
+  @media (max-width: 1024px) {
+    .sk-mobile-header {
+      display: block !important;
+    }
+  }
+
+  /* =========================================
+        TOP BAR
+      ========================================= */
+
+  .sk-mobile-topbar {
+    width: 100%;
+
+    background: #2b2118;
+    color: #ffffff;
+
+    padding: 8px 12px;
+
+    text-align: center;
+
+    font-size: 11px;
+
+    letter-spacing: 0.2px;
+  }
+
+  .sk-mobile-topbar-divider {
+    margin: 0 5px;
+    opacity: 0.5;
+  }
+
+  /* =========================================
+        MAIN HEADER
+      ========================================= */
+
+  .sk-mobile-main {
+    width: 100%;
+
+    background: #faf8f3;
+
+    border-bottom: 1px solid #e6ded3;
+  }
+
+  .sk-mobile-container {
+    width: 100%;
+
+    min-height: 70px;
+
+    padding: 8px 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+  }
+
+  /* =========================================
+        LOGO
+      ========================================= */
+
+  .sk-mobile-logo {
+    width: 50px;
+
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    flex-shrink: 0;
+
+    text-decoration: none;
+  }
+
+  .sk-mobile-logo img {
+    width: 50px;
+
+    height: 50px;
+
+    object-fit: contain;
+
+    display: block;
+  }
+
+  /* =========================================
+        RIGHT ACTIONS
+      ========================================= */
+
+  .sk-mobile-actions {
+    width: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 7px;
+  }
+
+  .sk-mobile-action {
+    width: 43px;
+
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+
+    border: 1px solid #ddd4c8;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #2b2118;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    padding: 0;
+
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+
+  .sk-mobile-action:hover {
+    background: #2b2118;
+
+    border-color: #2b2118;
+
+    color: #ffffff;
+  }
+
+  .sk-mobile-action svg {
+    width: 20px;
+
+    height: 20px;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 1.7;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+  }
+
+  /* =========================================
+        CART COUNT
+      ========================================= */
+
+  .sk-mobile-cart-count {
+    position: absolute;
+
+    top: -5px;
+
+    right: -3px;
+
+    min-width: 18px;
+
+    height: 18px;
+
+    padding: 0 4px;
+
+    border-radius: 20px;
+
+    background: #b8793e;
+
+    color: #ffffff;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+  }
+
+  /* =========================================
+        SEARCH PANEL
+      ========================================= */
+
+  .sk-mobile-search-panel {
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    background: #faf8f3;
+
+    padding: 18px 15px;
+
+    border-bottom: 1px solid #ddd4c8;
+
+    box-shadow: 0 12px 35px rgba(43, 33, 24, 0.12);
+
+    transform: translateY(-110%);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: transform 0.35s ease, opacity 0.3s ease, visibility 0.3s ease;
+
+    z-index: 100001;
+  }
+
+  .sk-mobile-search-panel.active {
+    transform: translateY(0);
+
+    opacity: 1;
+
+    visibility: visible;
+  }
+
+  .sk-mobile-search-title {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 14px;
+  }
+
+  .sk-mobile-search-title span {
+    font-family: Georgia, serif;
+
+    color: #2b2118;
+
+    font-size: 15px;
+
+    font-weight: 600;
+  }
+
+  .sk-mobile-search-close {
+    width: 34px;
+
+    height: 34px;
+
+    border: 1px solid #ddd4c8;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #2b2118;
+
+    font-size: 22px;
+
+    line-height: 1;
+
+    cursor: pointer;
+    padding: 0px;
+    margin-top: 10px;
+  }
+
+  .sk-mobile-search-form {
+    width: 100%;
+
+    height: 48px;
+
+    display: flex;
+
+    background: #ffffff;
+
+    border: 1px solid #d9d0c5;
+
+    border-radius: 5px;
+
+    overflow: hidden;
+  }
+
+  .sk-mobile-search-form input[type="search"] {
+    width: 100%;
+
+    height: 100%;
+
+    border: 0;
+
+    outline: 0;
+
+    padding: 0 13px;
+
+    background: transparent;
+
+    color: #2b2118;
+
+    font-size: 14px;
+  }
+
+  .sk-mobile-search-form button {
+    width: 55px;
+
+    height: 100%;
+
+    border: 0;
+
+    background: #2b2118;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+  }
+
+  .sk-mobile-search-form button svg {
+    width: 19px;
+
+    height: 19px;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 2;
+  }
+
+  /* =========================================
+        DRAWER OVERLAY
+      ========================================= */
+
+  .sk-mobile-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+    z-index: 10;
+  }
+
+  .sk-mobile-overlay.active {
+    opacity: 1;
+
+    visibility: visible;
+  }
+
+  /* =========================================
+        SIDE MENU
+      ========================================= */
+
+  .sk-mobile-drawer {
+    position: fixed;
+
+    top: 0;
+
+    right: 0;
+
+    width: 65%;
+
+    max-width: 420px;
+
+    height: 100vh;
+
+    height: 100dvh;
+
+    background: #faf8f3;
+
+    transform: translateX(100%);
+
+    transition: transform 0.35s cubic-bezier(0.77, 0, 0.18, 1);
+
+    z-index: 11;
+
+    overflow-y: auto;
+
+    box-shadow: -15px 0 45px rgba(0, 0, 0, 0.15);
+  }
+
+  .sk-mobile-drawer.active {
+    transform: translateX(0);
+  }
+
+  /* =========================================
+        DRAWER HEADER
+      ========================================= */
+
+  .sk-mobile-drawer-header {
+    min-height: 75px;
+
+    padding: 12px 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom: 1px solid #e3dacf;
+  }
+
+  .sk-mobile-drawer-title {
+    color: #2b2118;
+
+    font-family: Georgia, serif;
+
+    font-size: 19px;
+
+    font-weight: 600;
+  }
+
+  .sk-mobile-drawer-close {
+    width: 40px;
+
+    height: 40px;
+
+    border-radius: 50%;
+
+    border: 1px solid #d9d0c5;
+
+    background: transparent;
+
+    color: #2b2118;
+
+    cursor: pointer;
+
+    font-size: 24px;
+
+    line-height: 1;
+    padding: 0px;
+  }
+
+  /* =========================================
+        DRAWER LINKS
+      ========================================= */
+
+  .sk-mobile-menu {
+    padding: 12px 16px 30px;
+  }
+
+  .sk-mobile-menu > a {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    min-height: 52px;
+
+    padding: 0 4px;
+
+    border-bottom: 1px solid #e7dfd5;
+
+    color: #2b2118;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition: color 0.25s ease;
+  }
+
+  .sk-mobile-menu > a:hover {
+    color: #b8793e;
+  }
+
+  /* =========================================
+        DRAWER SHOP CATEGORY
+      ========================================= */
+
+  .sk-mobile-menu-section {
+    border-bottom: 1px solid #e7dfd5;
+  }
+
+  .sk-mobile-menu-section-title {
+    width: 100%;
+
+    min-height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 4px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #2b2118;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+  }
+
+  .sk-mobile-menu-section-title svg {
+    width: 17px;
+
+    height: 17px;
+
+    transition: transform 0.25s ease;
+  }
+
+  .sk-mobile-menu-section.open .sk-mobile-menu-section-title svg {
+    transform: rotate(180deg);
+  }
+
+  .sk-mobile-submenu {
+    max-height: 0;
+
+    overflow: hidden;
+
+    transition: max-height 0.35s ease;
+
+    padding-left: 8px;
+  }
+
+  .sk-mobile-menu-section.open .sk-mobile-submenu {
+    max-height: 500px;
+  }
+
+  .sk-mobile-submenu a {
+    display: block;
+
+    padding: 10px 5px;
+
+    color: #6e645a;
+
+    text-decoration: none;
+
+    font-size: 13px;
+  }
+
+  .sk-mobile-submenu a:hover {
+    color: #b8793e;
+  }
+
+  /* =========================================
+        DRAWER FOOTER LINKS
+      ========================================= */
+
+  .sk-mobile-drawer-footer {
+    margin-top: 20px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #e3dacf;
+  }
+
+  .sk-mobile-drawer-footer a {
+    display: block;
+
+    padding: 8px 4px;
+
+    color: #6e645a;
+
+    text-decoration: none;
+
+    font-size: 12px;
+  }
+
+  /* =========================================
+        TABLET
+      ========================================= */
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+
+      header#masthead {
+      height: 65px;
+  }
+
+    .sk-mobile-container {
+      min-height: 76px;
+
+      padding: 9px 22px;
+    }
+
+    .sk-mobile-logo {
+      width: 170px;
+    }
+
+    .sk-mobile-logo img {
+      width: 100%;
+
+      height: auto ;
+    }
+
+    .sk-mobile-actions {
+      gap: 10px;
+    }
+
+    .sk-mobile-action {
+      width: 46px;
+
+      height: 46px;
+    }
+
+    .sk-mobile-drawer {
+      width: 55%;
+
+      max-width: 450px;
+    }
+  }
+
+  /* =========================================
+        SMALL MOBILE
+      ========================================= */
+
+  @media (max-width: 767px) {
+      
+          header#masthead {
+          height: 100px !important;
+      }
+      
+    .sk-mobile-container {
+      padding-left: 10px;
+
+      padding-right: 10px;
+    }
+
+    .sk-mobile-actions {
+      gap: 4px;
+    }
+
+    .sk-mobile-action {
+      width: 39px;
+
+      height: 39px;
+    }
+
+    .sk-mobile-logo {
+      width: 150px;
+
+    }
+
+    .sk-mobile-logo img {
+      width: 100%;
+      height: auto;
+    }
+
+    .sk-mobile-drawer {
+      width: 72%;
+    }
+  }
+
+  </style>
+
+
+
+  <!-- =========================================
+      HEADER
+  ========================================= -->
+
+  <header class="sk-mobile-header">
+    <!-- TOP BAR -->
+    <div class="sk-mobile-topbar">
+      <span>Free Shipping In Mumbai</span>
+      <span class="sk-mobile-topbar-divider">|</span>
+      <span>Premium Furniture</span>
+    </div>
+    <!-- MAIN HEADER -->
+    <div class="sk-mobile-main">
+      <div class="sk-mobile-container">
+        <!-- LOGO -->
+        <a href="/" class="sk-mobile-logo" aria-label="SK Furniture Market">
+          <!-- CHANGE ONLY THIS IMAGE URL -->
+          <img src="https://skfurnituremarket.com/wp-content/uploads/2026/09/sk_logo-1.png" alt="SK Furniture Market">
+        </a>
+        <!-- RIGHT SIDE -->
+        <div class="sk-mobile-actions">
+          <!-- SEARCH BUTTON -->
+          <button type="button" class="sk-mobile-action" id="skMobileSearchOpen" aria-label="Open Search">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="16.5" y1="16.5" x2="22" y2="22"></line>
+            </svg>
+          </button>
+          <!-- CART -->
+          <a href="/cart/" class="sk-mobile-action" aria-label="Shopping Cart">
+            <svg viewBox="0 0 24 24">
+              <circle cx="9" cy="20" r="1"></circle>
+              <circle cx="18" cy="20" r="1"></circle>
+              <path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 8H6"></path>
+            </svg>
+            <span class="sk-mobile-cart-count" id="skMobileCartCount">0</span>
+          </a>
+          <!-- HAMBURGER -->
+          <button type="button" class="sk-mobile-action" id="skMobileMenuOpen" aria-label="Open Menu">
+            <svg viewBox="0 0 24 24">
+              <line x1="4" y1="7" x2="20" y2="7"></line>
+              <line x1="4" y1="12" x2="20" y2="12"></line>
+              <line x1="4" y1="17" x2="20" y2="17"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- =========================================
+          SEARCH PANEL
+      ========================================= -->
+    <div class="sk-mobile-search-panel " id="skMobileSearchPanel">
+      <form action="/shop/" method="get" class="sk-mobile-search-form">
+        <input type="search" name="s" placeholder="Search furniture..." autocomplete="off" aria-label="Search products" id="skMobileSearchInput">
+        <input type="hidden" name="post_type" value="product">
+        <button type="submit" aria-label="Search Products">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="16.5" y1="16.5" x2="22" y2="22"></line>
+          </svg>
+        </button>
+      </form>
+      <button type="button" class="sk-mobile-search-close" id="skMobileSearchClose" aria-label="Close Search"> × </button>
+    </div>
+    <!-- =========================================
+          OVERLAY
+      ========================================= -->
+    <div class="sk-mobile-overlay" id="skMobileOverlay"></div>
+    <!-- =========================================
+          SIDE DRAWER
+      ========================================= -->
+    <aside class="sk-mobile-drawer" id="skMobileDrawer">
+      <!-- DRAWER HEADER -->
+      <div class="sk-mobile-drawer-header">
+        <img src="https://skfurnituremarket.com/wp-content/uploads/2026/09/sk_logo-1.png" alt="SK Furniture Market">
+        <button type="button" class="sk-mobile-drawer-close" id="skMobileMenuClose" aria-label="Close Menu"> × </button>
+      </div>
+      <!-- MENU -->
+      <nav class="sk-mobile-menu">
+        <a href="/">
+          <span>Home</span>
+          <span>→</span>
+        </a>
+        <!-- SHOP -->
+        <div class="sk-mobile-menu-section">
+          <button type="button" class="sk-mobile-menu-section-title">
+            <span>Shop</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="sk-mobile-submenu">
+            <a href="/shop/"> All Furniture </a>
+            <a href="/product-category/sofa/"> Sofas </a>
+            <a href="/product-category/beds/"> Beds </a>
+            <a href="/product-category/chairs/"> Chairs </a>
+            <a href="/product-category/dining-tables/"> Dining Tables </a>
+            <a href="/product-category/wardrobes/"> Wardrobes </a>
+            <a href="/product-category/coffee-tables/"> Coffee Tables </a>
+            <a href="/product-category/tv-units/"> TV Units </a>
+            <a href="/product-category/storage/"> Storage </a>
+          </div>
+        </div>
+        </a>
+        <a href="/about/">
+          <span>About Us</span>
+          <span>→</span>
+        </a>
+        <a href="/contact/">
+          <span>Contact Us</span>
+          <span>→</span>
+        </a>
+        <a href="/my-account/">
+          <span>My Account</span>
+          <span>→</span>
+        </a>
+        <a href="/wishlist/">
+          <span>Wishlist</span>
+          <span>→</span>
+        </a>
+        <!-- FOOTER -->
+        <div class="sk-mobile-drawer-footer">
+          <!-- <a href="/shipping-delivery/"> Shipping &amp; Delivery </a> -->
+          <!-- <a href="/returns-refunds/"> Returns &amp; Refunds </a> -->
+          <!-- <a href="/faqs/"> Frequently Asked Questions </a> -->
+          <a href="/privacy-policy/"> Privacy Policy </a>
+          <a href="/terms-conditions/"> Terms &amp; Conditions </a>
+        </div>
+      </nav>
+    </aside>
+  </header>

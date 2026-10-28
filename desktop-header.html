@@ -1,0 +1,601 @@
+<!-- =========================================
+     SK FURNITURE MARKET
+     DESKTOP / LAPTOP HEADER
+     1025px AND ABOVE
+========================================= -->
+
+<style>
+    /* =========================================
+       DESKTOP HEADER
+    ========================================= */
+    
+    
+    header#masthead {
+  height: 90px;
+}
+
+    .sk-desktop-header {
+        display: block;
+        width: 100%;
+        position: relative;
+        z-index: 9999;
+        font-family: Arial, sans-serif;
+    }
+
+    .sk-desktop-header * {
+        box-sizing: border-box;
+    }
+
+    /* Hide on tablet/mobile */
+    @media (max-width: 1024px) {
+        .sk-desktop-header {
+            display: none !important;
+        }
+    }
+
+    /* =========================================
+       TOP ANNOUNCEMENT BAR
+    ========================================= */
+
+    .sk-desktop-topbar {
+        width: 100%;
+        background: #2B2118;
+        color: #ffffff;
+        padding: 9px 20px;
+        text-align: center;
+        font-size: 13px;
+        letter-spacing: 0.3px;
+    }
+
+    .sk-desktop-topbar-inner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .sk-desktop-topbar-divider {
+        opacity: 0.5;
+    }
+
+    /* =========================================
+       MAIN HEADER
+    ========================================= */
+
+    .sk-desktop-main {
+        width: 100%;
+        background: #FAF8F3;
+        border-bottom: 1px solid #e7dfd4;
+    }
+
+    .sk-desktop-container {
+        width: min(1400px, 94%);
+        min-height: 82px;
+        margin: 0 auto;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    /* =========================================
+       LOGO
+    ========================================= */
+
+    .sk-desktop-logo {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        text-decoration: none;
+    }
+
+    .sk-desktop-logo img {
+        display: block;
+        width: 165px;
+        height: auto;
+        max-height: 62px;
+        object-fit: contain;
+    }
+
+    /* =========================================
+       NAVIGATION
+    ========================================= */
+
+    .sk-desktop-navigation {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 27px;
+        flex: 1;
+    }
+
+    .sk-desktop-nav-link {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: #2B2118;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 11px 0;
+        transition: color 0.3s ease;
+    }
+
+    .sk-desktop-nav-link:hover,
+    .sk-desktop-nav-link.active {
+        color: #B8793E;
+    }
+
+    .sk-desktop-nav-link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 10px;
+
+        width: 0;
+        height: 1px;
+
+        background: #B8793E;
+
+        transition: width 0.3s ease;
+    }
+
+    .sk-desktop-nav-link:hover::after,
+    .sk-desktop-nav-link.active::after {
+        width: 100%;
+    }
+
+    /* =========================================
+       SHOP DROPDOWN
+    ========================================= */
+
+    .sk-desktop-dropdown {
+        position: relative;
+    }
+
+    .sk-desktop-dropdown-arrow {
+        width: 15px;
+        height: 15px;
+        transition: transform 0.3s ease;
+    }
+
+    .sk-desktop-dropdown:hover .sk-desktop-dropdown-arrow {
+        transform: rotate(180deg);
+    }
+
+    .sk-desktop-dropdown-menu {
+        position: absolute;
+
+        top: calc(100% - 5px);
+        left: 50%;
+
+        width: 720px;
+
+        transform: translateX(-20%) translateY(0px);
+
+        background: #ffffff;
+
+        border: 1px solid #e7dfd4;
+        border-radius: 4px;
+
+        padding: 30px;
+
+        display: grid;
+        grid-template-columns: repeat(3, 1fr) 1.2fr;
+
+        gap: 25px;
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition:
+            opacity 0.25s ease,
+            transform 0.25s ease,
+            visibility 0.25s ease;
+
+        box-shadow: 0 18px 45px rgba(43, 33, 24, 0.12);
+    }
+
+    .sk-desktop-dropdown:hover .sk-desktop-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+
+        transform: translateX(-20%) translateY(0);
+    }
+
+    .sk-desktop-dropdown-column {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sk-desktop-dropdown-column h4 {
+        margin: 0 0 8px;
+
+        color: #2B2118;
+
+        font-family: Georgia, serif;
+        font-size: 16px;
+    }
+
+    .sk-desktop-dropdown-column a {
+        color: #6c6259;
+        text-decoration: none;
+        font-size: 13px;
+
+        transition: color 0.25s ease;
+    }
+
+    .sk-desktop-dropdown-column a:hover {
+        color: #B8793E;
+    }
+
+    /* =========================================
+       FEATURE BOX
+    ========================================= */
+
+    .sk-desktop-feature {
+        background: #2B2118;
+        color: #ffffff;
+
+        padding: 24px;
+
+        min-height: 180px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .sk-desktop-feature span {
+        font-size: 10px;
+        letter-spacing: 2px;
+        color: #d7a36b;
+        margin-bottom: 10px;
+    }
+
+    .sk-desktop-feature h3 {
+        margin: 0 0 15px;
+
+        color: #ffffff;
+
+        font-family: Georgia, serif;
+        font-size: 22px;
+        line-height: 1.2;
+    }
+
+    .sk-desktop-feature a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 12px;
+    }
+
+    /* =========================================
+       HEADER ACTIONS
+    ========================================= */
+
+    .sk-desktop-actions {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+
+        flex-shrink: 0;
+    }
+
+    .sk-desktop-search {
+        width: 310px;
+        height: 42px;
+
+        display: flex;
+        align-items: center;
+
+        background: #ffffff;
+
+        border: 1px solid #ded5c9;
+        border-radius: 4px;
+
+        overflow: hidden;
+    }
+
+    .sk-desktop-search input {
+        width: 100%;
+        height: 100%;
+
+        border: 0;
+        outline: 0;
+
+        padding: 0 12px;
+
+        background: transparent;
+
+        color: #2B2118;
+        font-size: 13px;
+    }
+
+    .sk-desktop-search input::placeholder {
+        color: #91877c;
+    }
+
+    .sk-desktop-search button {
+        width: 40px;
+		height: 100%;
+		background: transparent;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		color: #2B2118;
+		padding: 10px;
+		border-radius: 0px;
+		border-left: 1px solid #aaa;
+    }
+
+    .sk-desktop-search button svg {
+        width: 19px;
+        height: 19px;
+    }
+
+    .sk-desktop-action {
+        width: 42px;
+        height: 42px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        position: relative;
+
+        color: #2B2118;
+        text-decoration: none;
+
+        border: 1px solid #ded5c9;
+        border-radius: 50%;
+
+        transition: all 0.25s ease;
+    }
+
+    .sk-desktop-action:hover {
+        color: #ffffff;
+        background: #2B2118;
+        border-color: #2B2118;
+    }
+
+    .sk-desktop-action svg {
+        width: 18px;
+        height: 18px;
+
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.7;
+    }
+
+    /* =========================================
+       CART COUNT
+    ========================================= */
+
+    .sk-desktop-cart-count {
+        position: absolute;
+
+        top: -5px;
+        right: -4px;
+
+        min-width: 17px;
+        height: 17px;
+
+        padding: 0 4px;
+
+        border-radius: 20px;
+
+        background: #B8793E;
+        color: #ffffff;
+
+        font-size: 9px;
+        font-weight: 600;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+
+<header class="sk-desktop-header">
+
+    <!-- TOP BAR -->
+    <div class="sk-desktop-topbar">
+        <div class="sk-desktop-topbar-inner">
+            <span>Free Shipping In Mumbai</span>
+            <span class="sk-desktop-topbar-divider">|</span>
+            <span>Premium Furniture • Made for Your Home</span>
+        </div>
+    </div>
+
+
+    <!-- MAIN HEADER -->
+    <div class="sk-desktop-main">
+
+        <div class="sk-desktop-container">
+
+            <!-- LOGO -->
+            <a href="/" class="sk-desktop-logo">
+
+                <!-- CHANGE ONLY THIS IMAGE URL -->
+                <img src="https://skfurnituremarket.com/wp-content/uploads/2026/09/sk_logo-1.png" alt="SK Furniture Market">
+
+            </a>
+
+
+            <!-- NAVIGATION -->
+            <nav class="sk-desktop-navigation">
+
+                <a href="/" class="sk-desktop-nav-link active">
+                    Home
+                </a>
+
+
+                <!-- SHOP DROPDOWN -->
+                <div class="sk-desktop-dropdown">
+
+                    <a href="/shop/" class="sk-desktop-nav-link">
+
+                        Shop
+
+                        <svg class="sk-desktop-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+
+                    </a>
+
+
+                    <div class="sk-desktop-dropdown-menu">
+
+                        <div class="sk-desktop-dropdown-column">
+
+                            <h4>Living Room</h4>
+
+                            <a href="/product-category/sofa/">Sofas</a>
+                            <a href="/product-category/chairs/">Chairs</a>
+                            <a href="/product-category/coffee-tables/">Coffee Tables</a>
+                            <a href="/product-category/tv-units/">TV Units</a>
+
+                        </div>
+
+
+                        <div class="sk-desktop-dropdown-column">
+
+                            <h4>Bedroom</h4>
+
+                            <a href="/product-category/beds/">Beds</a>
+                            <a href="/product-category/wardrobes/">Wardrobes</a>
+                            <a href="/product-category/storage/">Storage</a>
+
+                        </div>
+
+
+                        <div class="sk-desktop-dropdown-column">
+
+                            <h4>Dining</h4>
+
+                            <a href="/product-category/dining-tables/">Dining Tables</a>
+                            <a href="/product-category/chairs/">Dining Chairs</a>
+
+                        </div>
+
+
+                        <div class="sk-desktop-feature">
+
+                            <span>NEW COLLECTION</span>
+
+                            <h3>
+                                Furniture<br>
+                                That Feels<br>
+                                Like Home.
+                            </h3>
+
+                            <a href="/shop/">
+                                Explore Collection →
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                
+
+                
+
+                
+
+                
+
+                <a href="/about/" class="sk-desktop-nav-link">
+                    About
+                </a>
+
+                <a href="/contact/" class="sk-desktop-nav-link">
+                    Contact
+                </a>
+
+            </nav>
+
+
+            <!-- ACTIONS -->
+            <div class="sk-desktop-actions">
+
+
+                <!-- SEARCH -->
+                <form action="/shop/" method="get" class="sk-desktop-search">
+
+                    <input type="search" name="s" placeholder="Search furniture..." aria-label="Search products">
+
+                    <input type="hidden" name="post_type" value="product">
+
+                    <button type="submit" aria-label="Search products">
+
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+
+                            <circle cx="11" cy="11" r="7"></circle>
+
+                            <line x1="16.5" y1="16.5" x2="22" y2="22"></line>
+
+                        </svg>
+
+                    </button>
+
+                </form>
+
+
+                <!-- ACCOUNT -->
+                <a href="/my-account/" class="sk-desktop-action" aria-label="My Account">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <circle cx="12" cy="8" r="4"></circle>
+
+                        <path d="M4 21c0-4.5 3.5-7 8-7s8 2.5 8 7"></path>
+
+                    </svg>
+
+                </a>
+
+
+                <!-- WISHLIST -->
+                <a href="/wishlist/" class="sk-desktop-action" aria-label="Wishlist">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M20.8 8.7c0 5.5-8.8 10.3-8.8 10.3S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.6z"></path>
+
+                    </svg>
+
+                </a>
+
+
+                <!-- CART -->
+                <a href="/cart/" class="sk-desktop-action" aria-label="Shopping Cart">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <circle cx="9" cy="20" r="1"></circle>
+                        <circle cx="18" cy="20" r="1"></circle>
+
+                        <path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 8H6"></path>
+
+                    </svg>
+
+                    <span class="sk-desktop-cart-count">3</span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
